@@ -45,11 +45,11 @@ To initialize, call:
 
 `sleep_callback`, `set_reset_callback`, `set_command_callback`, `send_callback` and `send16_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES), set the display's command/data line (DCX, DC or A0) and send 8-bit and 16-bit data to the display.
 
-The display initialization by mcu-renderer is bare-bones. After calling `mr_st7789_init()` you should send a customized initialization sequence with `mr_send_sequence()`.
+ mcu-renderer's display initialization is bare-bones. After calling `mr_st7789_init()` you should send a customized initialization sequence with `mr_send_sequence()`.
 
 ## ILI9341
 
-Use of the ILI9341 display is quite similar to the ST7789, except:
+Use of the ILI9341 display is similar to the ST7789, except:
 
 * you must include the `mcu-renderer-ili9341.h` file.
 * you must call the `mr_ili9341_init()` function.
@@ -74,4 +74,4 @@ To start using mcu-renderer with an ST7565 monochrome LCD display, include the `
 
 `sleep_callback`, `set_reset_callback`, `set_command_callback` and `send_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES), set the display's command/data line (DCX, DC or A0) and send 8-bit data to the display.
 
-The display initialization by mcu-renderer is bare-bones. After calling `mr_st7565_init()` you should send a customized initialization sequence with `mr_send_sequence()`.
+mcu-renderer's display initialization is bare-bones. After calling `mr_st7565_init()` you should send a customized initialization sequence with `mr_send_sequence()`.
