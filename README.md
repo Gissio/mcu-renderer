@@ -1,4 +1,4 @@
-![Project logo](img/mcu-renderer.png)
+![Project logo](img/mcu-renderer-title.png)
 
 # mcu-renderer
 
