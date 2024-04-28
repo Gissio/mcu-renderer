@@ -40,7 +40,7 @@ To draw a text rectangle, call `mr_set_font()` to set the font, `mr_set_fill_col
 
 Rectangle bounds may not exceed the display size. The `offset` parameter of the text drawing functions is not limited.
 
-Monochrome displays and SDL require a screen refresh. For refreshing the screen, call `mr_refresh_screen()` after you finished drawing.
+Monochrome displays and SDL require a screen refresh. For refreshing the screen, call `mr_xxx_refresh_screen()` after you finished drawing.
 
 ## Examples
 
