@@ -28,7 +28,7 @@ To start using mcu-renderer, include the [appropriate header file](docs/supporte
 
 In order to initialize the library, call the corresponding `mr_init_xxx()` function. The display is initially turned off, allowing you to draw before the first screen update. To turn the display on, call `mr_xxx_set_display()`.
 
-Next, set up the fonts. You may use the fonts available in the [fonts](fonts folder), or prepare your own, as the [Preparing fonts](#preparing-fonts) section explains.
+Next, set up the fonts. You may use the fonts available in the [fonts folder](fonts), or prepare your own, as the [Preparing fonts](#preparing-fonts) section explains.
 
 After that, set up a screen layout consisting of non-overlapping rectangles. This will avoid any flickering when updating the screen.
 
