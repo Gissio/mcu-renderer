@@ -27,7 +27,7 @@ typedef struct mr_t_ mr_t;
 
 // Color
 
-typedef uint16_t mr_color;
+typedef uint16_t mr_color_t;
 
 #define COLOR_BLEND_TABLE_SIZE ((1 << 5) + 1)
 
@@ -116,10 +116,10 @@ void mr_draw_string_textbuffer(mr_t *mr,
 
 void mr_draw_image_framebuffer_monochrome_vertical(mr_t *mr,
                                                    const mr_rectangle_t *rectangle,
-                                                   const mr_color *image);
+                                                   const mr_color_t *image);
 void mr_draw_image_framebuffer_color(mr_t *mr,
                                      const mr_rectangle_t *rectangle,
-                                     const mr_color *image);
+                                     const mr_color_t *image);
 
 // I/O
 
@@ -154,12 +154,11 @@ void mr_send_sequence(mr_t *mr,
 
 // Common
 
-typedef void (*mr_set_display_callback_t)(mr_t *mr, bool value);
 typedef void (*mr_draw_rectangle_callback_t)(mr_t *mr,
                                              const mr_rectangle_t *rectangle);
 typedef void (*mr_draw_image_callback_t)(mr_t *mr,
                                          const mr_rectangle_t *rectangle,
-                                         const mr_color *image);
+                                         const mr_color_t *image);
 typedef void (*mr_draw_string_callback_t)(mr_t *mr,
                                           const uint8_t *str,
                                           const mr_rectangle_t *rectangle,
@@ -171,11 +170,9 @@ typedef void (*mr_draw_textbuffer_callback_t)(mr_t *mr,
                                               uint8_t *buffer,
                                               uint32_t buffer_pitch,
                                               mr_rectangle_t *rectangle);
-typedef void (*mr_refresh_display_callback_t)(mr_t *mr);
 
 struct mr_t_
 {
-    mr_set_display_callback_t set_display_callback;
     mr_draw_rectangle_callback_t draw_rectangle_callback;
 #if defined(MCURENDERER_IMAGE_SUPPORT)
     mr_draw_image_callback_t draw_image_callback;
@@ -183,7 +180,6 @@ struct mr_t_
     mr_draw_string_callback_t draw_string_callback;
     mr_draw_glyph_callback_t draw_glyph_callback;
     mr_draw_textbuffer_callback_t draw_textbuffer_callback;
-    mr_refresh_display_callback_t refresh_display_callback;
     mr_sleep_callback_t sleep_callback;
     mr_set_reset_callback_t set_reset_callback;
     mr_set_command_callback_t set_command_callback;
@@ -199,50 +195,35 @@ struct mr_t_
     uint32_t buffer_size;
     uint32_t buffer_pitch;
 
-    mr_color fill_color;
+    mr_color_t fill_color;
 
-    mr_color text_color;
-    mr_color blend_table[COLOR_BLEND_TABLE_SIZE];
+    mr_color_t text_color;
+    mr_color_t blend_table[COLOR_BLEND_TABLE_SIZE];
     const uint8_t *font;
     mr_glyph_t glyph;
 };
 
 void mr_init(mr_t *mr);
 
-inline void mr_set_command(mr_t *mr, bool value)
+static inline void mr_set_command(mr_t *mr,
+                                  bool value)
 {
     mr->set_command_callback(value);
 }
 
-inline void mr_send(mr_t *mr, uint8_t value)
+static inline void mr_send(mr_t *mr,
+                           uint8_t value)
 {
     mr->send_callback(value);
 }
 
-inline void mr_send16(mr_t *mr, uint16_t value)
+static inline void mr_send16(mr_t *mr,
+                             uint16_t value)
 {
     mr->send16_callback(value);
 }
 
 // API functions
-
-/**
- * Enables/disables the display.
- *
- * @param mr The mcu-renderer instance.
- * @param value Display enable.
- */
-void mr_set_display(mr_t *mr,
-                    bool value);
-
-/**
- * Refreshes the display.
- *
- * Required for displays that use a framebuffer.
- *
- * @param mr The mcu-renderer instance.
- */
-void mr_refresh_display(mr_t *mr);
 
 /**
  * Sets the fill color.
@@ -251,7 +232,7 @@ void mr_refresh_display(mr_t *mr);
  * @param color The fill color.
  */
 void mr_set_fill_color(mr_t *mr,
-                       mr_color color);
+                       mr_color_t color);
 
 /**
  * Draws a filled rectangle.
@@ -271,7 +252,7 @@ void mr_draw_rectangle(mr_t *mr,
  */
 void mr_draw_image(mr_t *mr,
                    const mr_rectangle_t *rectangle,
-                   const mr_color *image);
+                   const mr_color_t *image);
 
 /**
  * Sets the font.
@@ -289,7 +270,7 @@ void mr_set_font(mr_t *mr,
  * @param font The text color.
  */
 void mr_set_text_color(mr_t *mr,
-                       mr_color color);
+                       mr_color_t color);
 
 /**
  * Draws a C-string.
