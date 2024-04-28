@@ -51,10 +51,6 @@ int main(int argc, char *argv[])
     initSystem();
     initST7789(&mr);
 
-    // Initialize mcu-renderer
-
-    mr_set_display(&mr, true);
-
     // Draw demo strings
 
     mr_rectangle_t rectangle;

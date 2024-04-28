@@ -68,7 +68,8 @@ int main(int argc, char *argv[])
                 "mcu-renderer");
 #endif
 
-    mr_set_display(&mr, true);
+    mr_sdl_set_display(&mr, true);
+    mr_sdl_set_backlight(&mr, 255);
 
     // Draw demo strings
 
@@ -153,7 +154,7 @@ int main(int argc, char *argv[])
 
         // Update SDL display
 
-        mr_refresh_display(&mr);
+        mr_sdl_refresh_display(&mr);
 
         // Process SDL events
 

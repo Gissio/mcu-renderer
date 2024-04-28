@@ -131,4 +131,6 @@ void initST7789(mr_t *mr)
                    onSend16);
 
     mr_send_sequence(mr, st7789_init_sequence);
+
+    mr_st7789_set_display(mr, true);
 }

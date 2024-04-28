@@ -26,7 +26,7 @@ mcu-renderer is a C-language graphics library for MCUs, focused on rendering non
 
 To start using mcu-renderer, include the [appropriate header file](docs/supported-devices.md).
 
-In order to initialize the library, call the corresponding `mr_init_xxx()` function. The display is initially turned off, allowing you to draw before the first screen update. To turn the display on, call `mr_set_display()`.
+In order to initialize the library, call the corresponding `mr_init_xxx()` function. The display is initially turned off, allowing you to draw before the first screen update. To turn the display on, call `mr_xxx_set_display()`.
 
 Next, set up the fonts. You may use the fonts available in the [fonts](fonts folder), or prepare your own, as the [Preparing fonts](#preparing-fonts) section explains.
 

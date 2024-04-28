@@ -120,9 +120,9 @@ int main(void)
         rectangle.x = x;
 
         uint32_t value = x * 64 / DISPLAY_WIDTH;
-        mr_color red = (value >> 1) << 11;
-        mr_color green = value << 5;
-        mr_color blue = (value >> 1);
+        mr_color_t red = (value >> 1) << 11;
+        mr_color_t green = value << 5;
+        mr_color_t blue = (value >> 1);
 
         rectangle.y = 0 * GRADIENT_HEIGHT;
         mr_set_fill_color(&mr, red);
@@ -175,8 +175,6 @@ int main(void)
             (DISPLAY_WIDTH - mr_get_text_width(&mr, text)) / 2, 0};
 
         mr_draw_text(&mr, text, &text_rectangle, &textOffset);
-
-        mr_set_display(&mr, true);
 
         while (getKeyDown(KEY_LEFT) ||
                getKeyDown(KEY_RIGHT) ||
