@@ -32,7 +32,7 @@ Next, set up the fonts. You may use the fonts available in the [fonts folder](fo
 
 After that, set up a screen layout consisting of non-overlapping rectangles. This will avoid any flickering when updating the screen.
 
-To draw an filled rectangle, call `mr_set_fill_color()` to set the fill color and `mr_draw_rectangle()` for the actual drawing. You can convert web colors (e.g. #ff2020) to mcu-renderer colors with the `mr_get_color` macro.
+To draw a filled rectangle, call `mr_set_fill_color()` to set the fill color and `mr_draw_rectangle()` for the actual drawing. You can convert web colors (e.g. #ff2020) to mcu-renderer colors with the `mr_get_color` macro.
 
 To draw an image in a user-provided RGB565 framebuffer, call `mr_draw_image()`.
 
