@@ -1,0 +1,20 @@
+{
+    "name": "mcu-renderer",
+    "version": "1.0.2",
+    "keywords": "board-game, chess, chess-engine, embedded, fen, mcu, microcontroller, uci, uci-chess-engine",
+    "description": "A C-language graphics library, focused on rendering non-flickering, anti-aliased text with low resource use on both monochrome and color LCD displays.",
+	"license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Gissio/mcu-renderer.git"
+    },
+    "authors": [
+        {
+            "name": "Gissio",
+            "maintainer": true
+        }
+    ],
+	"homepage": "https://github.com/Gissio/mcu-renderer",
+    "frameworks": "*",
+    "platforms": "*"
+}
