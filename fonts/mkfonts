@@ -1,22 +1,32 @@
 #!/bin/bash
-./fontconv.exe -p 17 -c 12 -b 1 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR12_1.h
-./fontconv.exe -p 17 -c 12 -b 2 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR12_2.h
-./fontconv.exe -p 17 -c 12 -b 3 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR12_3.h
-./fontconv.exe -p 17 -c 12 -b 4 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR12_4.h
-./fontconv.exe -p 34 -c 24 -b 1 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR24_1.h
-./fontconv.exe -p 34 -c 24 -b 2 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR24_2.h
-./fontconv.exe -p 34 -c 24 -b 3 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR24_3.h
-./fontconv.exe -p 34 -c 24 -b 4 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR24_4.h
-./fontconv.exe -p 68 -c 48 -b 1 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR48_1.h
-./fontconv.exe -p 68 -c 48 -b 2 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR48_2.h
-./fontconv.exe -p 68 -c 48 -b 3 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR48_3.h
-./fontconv.exe -p 68 -c 48 -b 4 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR48_4.h
-./fontconv.exe -p 101 -c 72 -b 1 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR72_1.h
-./fontconv.exe -p 101 -c 72 -b 2 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR72_2.h
-./fontconv.exe -p 101 -c 72 -b 3 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR72_3.h
-./fontconv.exe -p 101 -c 72 -b 4 -s 0x20-0x7e Roboto-Regular.ttf font_robotoR72_4.h
-./fontconv.exe -p 18 -c 16 -s 0xe1a3-0xe1aa MaterialSymbolsOutlined-Regular.ttf font_material_symbolsR12_4.h
+./fontconv.exe -p 17 -c 12 -a 17 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_1.h
+./fontconv.exe -p 17 -c 12 -a 17 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_2.h
+./fontconv.exe -p 17 -c 12 -a 17 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_3.h
+./fontconv.exe -p 17 -c 12 -a 17 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_4.h
+./fontconv.exe -p 25 -c 18 -a 25 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_1.h
+./fontconv.exe -p 25 -c 18 -a 25 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_2.h
+./fontconv.exe -p 25 -c 18 -a 25 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_3.h
+./fontconv.exe -p 25 -c 18 -a 25 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_4.h
+./fontconv.exe -p 34 -c 24 -a 34 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_1.h
+./fontconv.exe -p 34 -c 24 -a 34 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_2.h
+./fontconv.exe -p 34 -c 24 -a 34 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_3.h
+./fontconv.exe -p 34 -c 24 -a 34 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_4.h
+./fontconv.exe -p 50 -c 36 -a 50 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_1.h
+./fontconv.exe -p 50 -c 36 -a 50 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_2.h
+./fontconv.exe -p 50 -c 36 -a 50 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_3.h
+./fontconv.exe -p 50 -c 36 -a 50 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_4.h
+./fontconv.exe -p 67 -c 48 -a 66 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_1.h
+./fontconv.exe -p 67 -c 48 -a 66 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_2.h
+./fontconv.exe -p 67 -c 48 -a 66 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_3.h
+./fontconv.exe -p 67 -c 48 -a 66 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_4.h
+./fontconv.exe -p 100 -c 72 -a 96 -b 1 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_1.h
+./fontconv.exe -p 100 -c 72 -a 96 -b 2 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_2.h
+./fontconv.exe -p 100 -c 72 -a 96 -b 3 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_3.h
+./fontconv.exe -p 100 -c 72 -a 96 -b 4 -s 0x20-0x7e Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_4.h
 
-./fontconv.exe -s 0x20-0x7e robotoR8.bdf font_robotoR8.h
-./fontconv.exe -s 0x20-0x7e robotoR24.bdf font_robotoR24.h
-./fontconv.exe -s 0x20-0x7e tiny5-Medium.bdf font_tiny5-Medium.h
+./fontconv.exe -p 18 -c 16 -s 0xe1a3-0xe1aa MaterialSymbolsOutlined-Regular.ttf ../src/mcu-renderer-fonts/font_material_symbolsR12_4.h
+
+./fontconv.exe -s 0x20-0x7e roboto-matrixR8.bdf ../src/mcu-renderer-fonts/font_roboto_matrixR8.h
+./fontconv.exe -s 0x20-0x7e roboto-matrixR24.bdf ../src/mcu-renderer-fonts/font_roboto_matrixR24.h
+
+./fontconv.exe -s 0x20-0x7e tiny5-Regular.bdf ../src/mcu-renderer-fonts/font_tiny5-Regular.h

@@ -1,4 +1,4 @@
-![Project logo](img/mcu-renderer-title.png)
+![Project logo](docs/img/mcu-renderer-title.png)
 
 # mcu-renderer
 
@@ -6,7 +6,7 @@ mcu-renderer is a C-language graphics library for MCUs, focused on rendering non
 
 ## Features
 
-* Focused on MCUs with little memory.
+* Aimed at MCUs with little memory.
 * Common API for monochrome and color displays.
 * Very fast anti-aliased font rendering.
 * High font compression ratio.
@@ -18,15 +18,16 @@ mcu-renderer is a C-language graphics library for MCUs, focused on rendering non
 
 ## Supported devices
 
-* [ILI9341](docs/supported-devices.md#ili9341)
+* [SDL](docs/supported-devices.md#sdl)
 * [ST7789](docs/supported-devices.md#st7789)
+* [ILI9341](docs/supported-devices.md#ili9341)
 * [ST7565](docs/supported-devices.md#st7565)
 
 ## Setup
 
 To start using mcu-renderer, include the [appropriate header file](docs/supported-devices.md).
 
-In order to initialize the library, call the corresponding `mr_init_xxx()` function. The display is initially turned off, allowing you to draw before the first screen update. To turn the display on, call `mr_xxx_set_display()`.
+In order to initialize the library, call the corresponding `mr_xxx_init()` function. The display is initially turned off, allowing you to draw before the first screen update. To turn the display on, call `mr_xxx_set_display()`. On color LCD screens, you also need to disable sleep mode with `mr_xxx_set_sleep()`.
 
 Next, set up the fonts. You may use the fonts available in the [fonts folder](fonts), or prepare your own, as the [Preparing fonts](#preparing-fonts) section explains.
 
@@ -64,7 +65,7 @@ See the [examples](examples) folder.
 
 ## Preparing fonts
 
-In order to convert your fonts to the mcu-renderer format, use the `fontconv` tool, which lets you convert both `.bdf` and `.pcf` bitmap fonts as well as `.ttf`, `.ttc`, `.otf`, `.otc` and `.woff` vector fonts.
+In order to convert your fonts to the mcu-renderer format, use the `fontconv` tool (available in binary form under [releases](releases)), which lets you convert both `.bdf` and `.pcf` bitmap fonts as well as `.ttf`, `.ttc`, `.otf`, `.otc` and `.woff` vector fonts.
 
 In digital typography, 72 points is usually defined as 96 pixels. For rasterizing a vector font to a given pixel size, convert the pixel size to a point size by multiplying by the factor 4/3. Not all fonts follow this rule, so you might need to tweak this factor.
 
@@ -78,3 +79,5 @@ In digital typography, 72 points is usually defined as 96 pixels. For rasterizin
 * [Bits'N'Picas](https://github.com/kreativekorp/bitsnpicas): bitmap font editor
 * [FontDrop!](https://fontdrop.info/): online glyph viewer
 * [Oh My Glyph](https://www.ohmyglyph.com/): online glyph copy+paste
+* [Pinetools blend colors](https://pinetools.com/blend-colors): Online color blender
+* [RGB565 color picker](https://rgbcolorpicker.com/565): Online RGB565 color picker

@@ -56,7 +56,9 @@ Use of the ILI9341 display is similar to the ST7789, except:
 
 ## ST7565
 
-To start using mcu-renderer with an ST7565 monochrome LCD display, include the `mcu-renderer-st7565.h` file. To initialize, call:
+To start using mcu-renderer with an ST7565 monochrome LCD display, include the `mcu-renderer-st7565.h` file.
+
+To initialize, call:
 
     void mr_st7565_init(mr_t *mr,
                         int16_t width,

@@ -21,8 +21,8 @@ typedef enum
     KEY_DOWN,
 } key_t;
 
-void initKeyboard(void);
+void init_keyboard(void);
 
-bool getKeyDown(key_t index);
+bool get_key_down(key_t index);
 
 #endif

@@ -4,7 +4,7 @@ project(sdl_example)
 
 set(CMAKE_C_STANDARD 99)
 
-FILE(GLOB sources *.c)
+FILE(GLOB sources src/*.c)
 FILE(GLOB mcu_renderer_sources ../../src/*.c)
 
 find_package(SDL2 CONFIG REQUIRED)

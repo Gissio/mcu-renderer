@@ -1,6 +1,6 @@
 /*
- * MCU renderer
- * 320x240 ST7789 on STM32 Blue Pill demo
+ * MCU renderer example
+ * Hello world
  *
  * (C) 2023-2024 Gissio
  *
@@ -10,117 +10,131 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "stm32.h"
-#include "st7789.h"
+#include "display.h"
+#include "system.h"
 
-#include "../../../fonts/font_material_symbolsR12_4.h"
+#include "mcu-renderer-fonts/font_material_symbolsR12_4.h"
 
-#include "../../../fonts/font_robotoR12_4.h"
+#include "mcu-renderer-fonts/font_robotoM12_4.h"
 
-#include "../../../fonts/font_robotoR24_1.h"
-#include "../../../fonts/font_robotoR24_2.h"
-#include "../../../fonts/font_robotoR24_3.h"
-#include "../../../fonts/font_robotoR24_4.h"
+#include "mcu-renderer-fonts/font_robotoM48_1.h"
+#include "mcu-renderer-fonts/font_robotoM48_2.h"
+#include "mcu-renderer-fonts/font_robotoM48_3.h"
+#include "mcu-renderer-fonts/font_robotoM48_4.h"
 
-#define DISPLAY_WIDTH 320
-#define DISPLAY_HEIGHT 240
-#define STATUS_BAR_HEIGHT 20
-#define CONTENT_HEIGHT (DISPLAY_HEIGHT - STATUS_BAR_HEIGHT)
-#define CELL_HEIGHT (CONTENT_HEIGHT / 4)
+#define STATUSBAR_X 0
+#define STATUSBAR_Y 0
+#define STATUSBAR_WIDTH DISPLAY_WIDTH
+#define STATUSBAR_HEIGHT 40
+#define STATUSBAR_ITEMS 4
 
-mr_t mr;
+#define CONTENT_X 0
+#define CONTENT_Y STATUSBAR_HEIGHT
+#define CONTENT_WIDTH DISPLAY_WIDTH
+#define CONTENT_HEIGHT (DISPLAY_HEIGHT - STATUSBAR_HEIGHT)
 
-const uint8_t *demo_fonts[] = {
-    font_robotoR24_1,
-    font_robotoR24_2,
-    font_robotoR24_3,
-    font_robotoR24_4,
-};
+#define CELL_WIDTH (CONTENT_WIDTH / 2)
+#define CELL_HEIGHT (CONTENT_HEIGHT / 2)
 
-const char *demo_strings[] = {
-    "Hello world! 1 bpp",
-    "Hello world! 2 bpp",
-    "Hello world! 3 bpp",
-    "Hello world! 4 bpp",
-};
-
-int main(int argc, char *argv[])
+int main(void)
 {
     mr_t mr;
 
-    initSystem();
-    initST7789(&mr);
+    init_system();
+    init_display(&mr);
 
-    // Draw demo strings
-
+    // Draw content
     mr_rectangle_t rectangle;
     mr_point_t offset;
 
-    for (uint32_t i = 0; i < 4; i++)
+    const char *test_strings[] = {
+        "1bit",
+        "2bit",
+        "3bit",
+        "4bit",
+    };
+    const uint8_t *test_fonts[] = {
+        font_robotoM48_1,
+        font_robotoM48_2,
+        font_robotoM48_3,
+        font_robotoM48_4,
+    };
+    for (uint32_t y = 0; y < 2; y++)
     {
-        mr_set_font(&mr, demo_fonts[i]);
-        mr_set_text_color(&mr, mr_get_color(0xf1f5fb));
-        mr_set_fill_color(&mr,
-                          (i % 2)
-                              ? mr_get_color(0x121a24)
-                              : mr_get_color(0x1b2633));
+        for (uint32_t x = 0; x < 2; x++)
+        {
+            uint32_t index = y * 2 + x;
 
-        // Center horizontally and vertically
-        rectangle = (mr_rectangle_t){0,
-                                     STATUS_BAR_HEIGHT + CELL_HEIGHT * i,
-                                     DISPLAY_WIDTH,
-                                     CELL_HEIGHT};
+            mr_set_font(&mr, test_fonts[index]);
+            mr_set_fill_color(&mr,
+                              mr_get_color((x != y) ? 0xf7f7f7 : 0xe8ecf2));
+            mr_set_text_color(&mr, mr_get_color(0xDF1B1B));
+
+            rectangle = (mr_rectangle_t){CONTENT_X + x * CELL_WIDTH,
+                                         CONTENT_Y + y * CELL_HEIGHT,
+                                         CELL_WIDTH,
+                                         CELL_HEIGHT};
+            offset = (mr_point_t){
+                (CELL_WIDTH - mr_get_utf8_text_width(&mr,
+                                                     (uint8_t *)test_strings[index])) /
+                    2,
+                (CELL_HEIGHT - mr_get_line_height(&mr)) / 2};
+
+            mr_draw_utf8_text(&mr,
+                              (uint8_t *)test_strings[index],
+                              &rectangle,
+                              &offset);
+        }
+    }
+
+    // Draw status bar
+    mr_set_fill_color(&mr, mr_get_color(0xffffff));
+
+    const char *statusbar_items[] = {
+        "Hello world!",
+        "12:34",
+        "\xee\x86\xa7",
+        "\xee\x86\xa4"};
+    const uint32_t statusbar_x[] = {
+        0,
+        STATUSBAR_WIDTH - 124,
+        STATUSBAR_WIDTH - 68,
+        STATUSBAR_WIDTH - 40,
+        STATUSBAR_WIDTH};
+
+    rectangle = (mr_rectangle_t){STATUSBAR_X,
+                                 STATUSBAR_Y,
+                                 STATUSBAR_WIDTH / 2,
+                                 STATUSBAR_HEIGHT};
+
+    for (int i = 0; i < STATUSBAR_ITEMS; i++)
+    {
+        rectangle.x = statusbar_x[i];
+        rectangle.width = statusbar_x[i + 1] - statusbar_x[i];
+
+        if (i < 2)
+            mr_set_font(&mr, font_robotoM12_4);
+        else
+            mr_set_font(&mr, font_material_symbolsR12_4);
+
+        if (i < 1)
+            mr_set_text_color(&mr, mr_get_color(0x000000));
+        else
+            mr_set_text_color(&mr, mr_get_color(0x707070));
+
         offset = (mr_point_t){
-            (DISPLAY_WIDTH - mr_get_utf8_text_width(&mr, demo_strings[i])) / 2,
-            (CELL_HEIGHT - mr_get_line_height(&mr)) / 2};
+            FONT_ROBOTOM12_4_CAP_HEIGHT,
+            (STATUSBAR_HEIGHT - mr_get_line_height(&mr)) / 2};
 
         mr_draw_utf8_text(&mr,
-                          demo_strings[i],
+                          (uint8_t *)statusbar_items[i],
                           &rectangle,
                           &offset);
     }
 
-    // Draw status bar
+    set_display(&mr, true);
 
-    mr_set_text_color(&mr, mr_get_color(0xffffff));
-    mr_set_fill_color(&mr, mr_get_color(0x000000));
-
-    // Draw time of status bar
-
-    mr_set_font(&mr, font_robotoR12_4);
-    char string[16] = "12:34";
-
-    rectangle = (mr_rectangle_t){0,
-                                 0,
-                                 DISPLAY_WIDTH / 2,
-                                 STATUS_BAR_HEIGHT};
-    offset = (mr_point_t){
-        FONT_ROBOTOR12_4_CAP_HEIGHT / 2,
-        (STATUS_BAR_HEIGHT - mr_get_line_height(&mr)) / 2};
-
-    mr_draw_utf8_text(&mr,
-                      string,
-                      &rectangle,
-                      &offset);
-
-    // Draw icons of status bar
-
-    mr_set_font(&mr, font_material_symbolsR12_4);
-
-    strcpy(string, "\xee\x86\xa7\xee\x86\xa4");
-
-    rectangle = (mr_rectangle_t){DISPLAY_WIDTH / 2,
-                                 0,
-                                 DISPLAY_WIDTH / 2,
-                                 STATUS_BAR_HEIGHT};
-
-    offset = (mr_point_t){
-        DISPLAY_WIDTH / 2 - mr_get_utf8_text_width(&mr, string) -
-            FONT_ROBOTOR12_4_CAP_HEIGHT / 2,
-        (STATUS_BAR_HEIGHT - mr_get_line_height(&mr)) / 2};
-
-    mr_draw_utf8_text(&mr,
-                      string,
-                      &rectangle,
-                      &offset);
+    // Update screen
+    while (true)
+        update_display(&mr);
 }

@@ -11,7 +11,7 @@
 
 #include "keyboard.h"
 
-void initKeyboard(void)
+void init_keyboard(void)
 {
     gpio_set(GPIOA,
              GPIO8 | GPIO9 | GPIO10 | GPIO11);
@@ -21,7 +21,7 @@ void initKeyboard(void)
                   GPIO8 | GPIO9 | GPIO10 | GPIO11);
 }
 
-bool getKeyDown(key_t index)
+bool get_key_down(key_t index)
 {
     switch (index)
     {

@@ -1,6 +1,6 @@
 /*
- * MCU renderer
- * 320x240 ST7789 on STM32 Blue Pill gamma calibration demo
+ * MCU renderer example
+ * Gamma calibration demo
  *
  * (C) 2023-2024 Gissio
  *
@@ -10,11 +10,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "display.h"
 #include "keyboard.h"
-#include "stm32.h"
-#include "st7789.h"
+#include "system.h"
 
-#include "../../../fonts/font_robotoR24_4.h"
+#include "mcu-renderer-fonts/font_robotoM24_4.h"
 
 #define GRADIENT_HEIGHT ((DISPLAY_HEIGHT - 40) / 4)
 
@@ -105,12 +105,11 @@ int main(void)
 {
     mr_t mr;
 
-    initSystem();
-    initST7789(&mr);
-    initKeyboard();
+    init_system();
+    init_display(&mr);
+    init_keyboard();
 
-    // Test
-
+    // Draw color gradients
     mr_rectangle_t rectangle = {
         0, 0,
         1, GRADIENT_HEIGHT};
@@ -149,6 +148,7 @@ int main(void)
 
     while (true)
     {
+        // Draw text bar
         mr_send_command(&mr, MR_ST7789_PVGAMCTRL);
         for (uint32_t i = 0; i < 14; i++)
             mr_send_data(&mr, gamma_profile[i]);
@@ -167,26 +167,30 @@ int main(void)
         strcat(text, "=");
         strcat_uint8(text, value);
 
-        mr_set_font(&mr, font_robotoR24_4);
-        mr_set_text_color(&mr, mr_get_color(0xffffff));
+        mr_set_font(&mr, font_robotoM24_4);
         mr_set_fill_color(&mr, mr_get_color(0x000000));
+        mr_set_text_color(&mr, mr_get_color(0xffffff));
 
         const mr_point_t textOffset = {
             (DISPLAY_WIDTH - mr_get_text_width(&mr, text)) / 2, 0};
 
         mr_draw_text(&mr, text, &text_rectangle, &textOffset);
 
-        while (getKeyDown(KEY_LEFT) ||
-               getKeyDown(KEY_RIGHT) ||
-               getKeyDown(KEY_UP) ||
-               getKeyDown(KEY_DOWN))
+        set_display(&mr, true);
+
+        // Wait for keyboard event
+        while (get_key_down(KEY_LEFT) ||
+               get_key_down(KEY_RIGHT) ||
+               get_key_down(KEY_UP) ||
+               get_key_down(KEY_DOWN))
         {
             sleep(50);
         }
 
+        // Handle keyboard event
         while (true)
         {
-            if (getKeyDown(KEY_LEFT))
+            if (get_key_down(KEY_LEFT))
             {
                 gamma_entry_index--;
                 if (gamma_entry_index < 0)
@@ -195,7 +199,7 @@ int main(void)
                 break;
             }
 
-            if (getKeyDown(KEY_RIGHT))
+            if (get_key_down(KEY_RIGHT))
             {
                 gamma_entry_index++;
                 if (gamma_entry_index >= (int32_t)GAMMA_ENTRY_NUM)
@@ -204,7 +208,7 @@ int main(void)
                 break;
             }
 
-            if (getKeyDown(KEY_UP))
+            if (get_key_down(KEY_UP))
             {
                 value++;
                 value &= mask;
@@ -215,7 +219,7 @@ int main(void)
                 break;
             }
 
-            if (getKeyDown(KEY_DOWN))
+            if (get_key_down(KEY_DOWN))
             {
                 value--;
                 value &= mask;
