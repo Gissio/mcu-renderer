@@ -35,7 +35,7 @@ After that, set up a screen layout consisting of non-overlapping rectangles. Thi
 
 To draw a filled rectangle, call `mr_set_fill_color()` to set the fill color and `mr_draw_rectangle()` for the actual drawing. You can convert web colors (e.g. #ff2020) to mcu-renderer colors with the `mr_get_color` macro.
 
-To draw a bitmap in a user-provided `uint8_t` framebuffer, call `mr_draw_bitmap()`. Call `mr_set_stroke_color()` to set the foreground color and `mr_set_fill_color()` to set the background color.
+To draw a bitmap in a user-provided `uint8_t` framebuffer, call `mr_set_stroke_color()` to set the foreground color, `mr_set_fill_color()` to set the background color and `mr_draw_bitmap()` to draw the bitmap.
 
 To draw an image in a user-provided RGB565 framebuffer, call `mr_draw_image()`.
 
