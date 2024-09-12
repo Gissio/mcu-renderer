@@ -53,6 +53,7 @@ void mr_sdl_init(mr_t *mr,
     mr->draw_rectangle_callback = mr_draw_rectangle_framebuffer_color;
     mr->draw_string_callback = mr_draw_string_framebuffer_color;
 #if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr->draw_bitmap_callback = mr_draw_bitmap_framebuffer_color;
     mr->draw_image_callback = mr_draw_image_framebuffer_color;
 #endif
 

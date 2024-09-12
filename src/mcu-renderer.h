@@ -118,6 +118,13 @@ void mr_draw_string_textbuffer(mr_t *mr,
                                const mr_point_t *offset,
                                mr_get_charcode_callback_t get_charcode_callback);
 
+void mr_draw_bitmap_framebuffer_monochrome_vertical(mr_t *mr,
+                                                   const mr_rectangle_t *rectangle,
+                                                   const uint8_t *bitmap);
+void mr_draw_bitmap_framebuffer_color(mr_t *mr,
+                                      const mr_rectangle_t *rectangle,
+                                      const uint8_t *bitmap);
+
 void mr_draw_image_framebuffer_monochrome_vertical(mr_t *mr,
                                                    const mr_rectangle_t *rectangle,
                                                    const mr_color_t *image);
@@ -160,6 +167,9 @@ void mr_send_sequence(mr_t *mr,
 
 typedef void (*mr_draw_rectangle_callback_t)(mr_t *mr,
                                              const mr_rectangle_t *rectangle);
+typedef void (*mr_draw_bitmap_callback_t)(mr_t *mr,
+                                          const mr_rectangle_t *rectangle,
+                                          const uint8_t *bitmap);
 typedef void (*mr_draw_image_callback_t)(mr_t *mr,
                                          const mr_rectangle_t *rectangle,
                                          const mr_color_t *image);
@@ -179,6 +189,7 @@ struct mr_t_
 {
     mr_draw_rectangle_callback_t draw_rectangle_callback;
 #if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr_draw_bitmap_callback_t draw_bitmap_callback;
     mr_draw_image_callback_t draw_image_callback;
 #endif
     mr_draw_string_callback_t draw_string_callback;
@@ -199,9 +210,9 @@ struct mr_t_
     uint32_t buffer_size;
     uint32_t buffer_pitch;
 
+    mr_color_t stroke_color;
     mr_color_t fill_color;
 
-    mr_color_t text_color;
     mr_color_t blend_table[COLOR_BLEND_TABLE_SIZE];
     const uint8_t *font;
     mr_glyph_t glyph;
@@ -227,7 +238,16 @@ inline void mr_send16(mr_t *mr, uint16_t value)
 // API functions
 
 /**
- * Sets the fill color.
+ * Sets the stroke/text color.
+ *
+ * @param mr The mcu-renderer instance.
+ * @param font The text color.
+ */
+void mr_set_stroke_color(mr_t *mr,
+                         mr_color_t color);
+
+/**
+ * Sets the fill/background color.
  *
  * @param mr The mcu-renderer instance.
  * @param color The fill color.
@@ -236,7 +256,7 @@ void mr_set_fill_color(mr_t *mr,
                        mr_color_t color);
 
 /**
- * Draws a filled rectangle.
+ * Draws a filled rectangle with the fill color.
  *
  * @param mr The mcu-renderer instance.
  * @param rectangle The rectangle.
@@ -245,7 +265,18 @@ void mr_draw_rectangle(mr_t *mr,
                        const mr_rectangle_t *rectangle);
 
 /**
- * Draws an image.
+ * Draws a monochrome bitmap using the stroke and fill colors.
+ *
+ * @param mr The mcu-renderer instance.
+ * @param rectangle The rectangle.
+ * @param bitmap The bitmap data.
+ */
+void mr_draw_bitmap(mr_t *mr,
+                    const mr_rectangle_t *rectangle,
+                    const uint8_t *bitmap);
+
+/**
+ * Draws a color RGB565 image.
  *
  * @param mr The mcu-renderer instance.
  * @param rectangle The rectangle.
@@ -263,15 +294,6 @@ void mr_draw_image(mr_t *mr,
  */
 void mr_set_font(mr_t *mr,
                  const uint8_t *font);
-
-/**
- * Sets the text color.
- *
- * @param mr The mcu-renderer instance.
- * @param font The text color.
- */
-void mr_set_text_color(mr_t *mr,
-                       mr_color_t color);
 
 /**
  * Draws a C-string.

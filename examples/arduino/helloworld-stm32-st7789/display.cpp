@@ -26,8 +26,8 @@
 static uint8_t display_text_buffer[80 * 80];
 
 static const uint8_t display_init_sequence[] = {
-  MR_SEND_COMMAND(MR_ST7789_INVON),  // Inverse for IPS displays
-  MR_END(),
+    MR_SEND_COMMAND(MR_ST7789_INVON), // Inverse for IPS displays
+    MR_END(),
 };
 
 void on_display_sleep(uint32_t value);
@@ -36,35 +36,43 @@ void on_Display_set_command(bool value);
 void on_display_send(uint16_t value);
 void on_display_send16(uint16_t value);
 
-void on_display_sleep(uint32_t value) {
+void on_display_sleep(uint32_t value)
+{
   delay(value);
 }
 
-void on_display_set_reset(bool value) {
+void on_display_set_reset(bool value)
+{
   digitalWrite(DISPLAY_RESX, !value);
 }
 
-void on_display_set_command(bool value) {
-  if (value) {
+void on_display_set_command(bool value)
+{
+  if (value)
+  {
     // Trigger CS before command
     digitalWrite(DISPLAY_CSX, HIGH);
     digitalWrite(DISPLAY_CSX, LOW);
 
     digitalWrite(DISPLAY_DCX, LOW);
-  } else
+  }
+  else
     digitalWrite(DISPLAY_DCX, HIGH);
 }
 
-void on_display_send(uint16_t value) {
+void on_display_send(uint16_t value)
+{
   SPI.transfer(value);
 }
 
-void on_display_send16(uint16_t value) {
+void on_display_send16(uint16_t value)
+{
   SPI.transfer((value >> 8) & 0xff);
   SPI.transfer((value >> 0) & 0xff);
 }
 
-void init_display(mr_t *mr) {
+void init_display(mr_t *mr)
+{
   // Setup GPIO
   pinMode(DISPLAY_RESX, OUTPUT);
   pinMode(DISPLAY_CSX, OUTPUT);
@@ -92,10 +100,12 @@ void init_display(mr_t *mr) {
   mr_send_sequence(mr, display_init_sequence);
 }
 
-void set_display(mr_t *mr, bool value) {
+void set_display(mr_t *mr, bool value)
+{
   mr_st7789_set_display(mr, value);
   mr_st7789_set_sleep(mr, !value);
 }
 
-void update_display(mr_t *mr) {
+void update_display(mr_t *mr)
+{
 }

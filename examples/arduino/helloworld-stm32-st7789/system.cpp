@@ -11,8 +11,10 @@
 
 #include "system.h"
 
-void init_system(void) {
+void init_system(void)
+{
 }
 
-void sleep(uint32_t value) {
+void sleep(uint32_t value)
+{
 }

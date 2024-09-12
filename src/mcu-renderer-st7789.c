@@ -51,6 +51,9 @@ static const uint8_t mr_st7789_madctl[] = {
 
 static void mr_st7789_draw_rectangle(mr_t *mr,
                                      const mr_rectangle_t *rectangle);
+static void mr_st7789_draw_bitmap(mr_t *mr,
+                                  const mr_rectangle_t *rectangle,
+                                  const uint8_t *bitmap);
 static void mr_st7789_draw_image(mr_t *mr,
                                  const mr_rectangle_t *rectangle,
                                  const mr_color_t *image);
@@ -84,6 +87,7 @@ void mr_st7789_init(mr_t *mr,
     mr->draw_string_callback = mr_draw_string_textbuffer;
     mr->draw_textbuffer_callback = mr_st7789_draw_textbuffer;
 #if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr->draw_bitmap_callback = mr_st7789_draw_bitmap;
     mr->draw_image_callback = mr_st7789_draw_image;
 #endif
     mr->sleep_callback = sleep_callback;
@@ -169,6 +173,35 @@ static void mr_st7789_draw_rectangle(mr_t *mr,
         mr_send16(mr, mr->fill_color);
 }
 
+static void mr_st7789_draw_bitmap(mr_t *mr,
+                                  const mr_rectangle_t *rectangle,
+                                  const uint8_t *bitmap)
+{
+    mr_st7789_set_rectangle(mr, rectangle);
+
+    mr_point_t position;
+
+    for (position.y = rectangle->y;
+         position.y < rectangle->y + rectangle->height;
+         position.y++)
+    {
+        uint32_t source_index = 0;
+
+        for (position.x = rectangle->x;
+             position.x < rectangle->x + rectangle->width;
+             position.x++)
+        {
+            bool source_pixel = ((bitmap[source_index >> 3]) >> (source_index & 0b111)) & 0b1;
+            source_index++;
+            mr_color_t source_color = source_pixel ? mr->stroke_color : mr->fill_color;
+
+            mr_send16(mr, source_color);
+        }
+
+        bitmap += ((source_index + 7) >> 3);
+    }
+}
+
 static void mr_st7789_draw_image(mr_t *mr,
                                  const mr_rectangle_t *rectangle,
                                  const mr_color_t *image)
@@ -179,7 +212,11 @@ static void mr_st7789_draw_image(mr_t *mr,
          i < ((uint32_t)rectangle->width *
               (uint32_t)rectangle->height);
          i++)
-        mr_send16(mr, *image++);
+    {
+        mr_color_t source_color = *image++;
+
+        mr_send16(mr, source_color);
+    }
 }
 
 static void mr_st7789_draw_textbuffer(mr_t *mr,

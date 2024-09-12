@@ -56,6 +56,7 @@ void mr_st7565_init(mr_t *mr,
     mr->draw_rectangle_callback = mr_draw_rectangle_framebuffer_monochrome_vertical;
     mr->draw_string_callback = mr_draw_string_framebuffer_monochrome_vertical;
 #if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr->draw_bitmap_callback = mr_draw_bitmap_framebuffer_monochrome_vertical;
     mr->draw_image_callback = mr_draw_image_framebuffer_monochrome_vertical;
 #endif
     mr->sleep_callback = sleep_callback;

@@ -230,13 +230,13 @@ static inline mr_point_t mr_rotate_point(mr_t *mr,
 #endif
 
 static inline int16_t mr_min(int16_t a,
-                      int16_t b)
+                             int16_t b)
 {
     return (a < b) ? a : b;
 }
 
 static inline int16_t mr_max(int16_t a,
-                      int16_t b)
+                             int16_t b)
 {
     return (a > b) ? a : b;
 }
@@ -350,16 +350,18 @@ void mr_draw_rectangle_framebuffer_monochrome_vertical(mr_t *mr,
              position.x < rectangle->x + rectangle->width;
              position.x++)
         {
-            mr_point_t buffer_position = mr_rotate_point(mr, &position);
-            uint8_t *buffer = (uint8_t *)mr->buffer +
-                              (buffer_position.y >> 3) * mr->display_width +
-                              buffer_position.x;
-            uint8_t mask = 1 << (buffer_position.y & 0b111);
+            mr_color_t source_color = mr->fill_color;
 
-            if (mr->fill_color >> 15)
-                *buffer |= mask;
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            uint8_t *dest_buffer = (uint8_t *)mr->buffer +
+                              (dest_position.y >> 3) * mr->display_width +
+                              dest_position.x;
+            uint8_t dest_buffer_mask = 1 << (dest_position.y & 0b111);
+
+            if (source_color >> 15)
+                *dest_buffer |= dest_buffer_mask;
             else
-                *buffer &= ~mask;
+                *dest_buffer &= ~dest_buffer_mask;
         }
     }
 }
@@ -377,16 +379,87 @@ void mr_draw_rectangle_framebuffer_color(mr_t *mr,
              position.x < rectangle->x + rectangle->width;
              position.x++)
         {
-            mr_point_t buffer_position = mr_rotate_point(mr, &position);
-            mr_color_t *buffer = (mr_color_t *)mr->buffer +
-                               buffer_position.y * mr->display_width +
-                               buffer_position.x;
-            *buffer = mr->fill_color;
+            mr_color_t source_color = mr->fill_color;
+
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            mr_color_t *dest_buffer = (mr_color_t *)mr->buffer +
+                                      dest_position.y * mr->display_width +
+                                      dest_position.x;
+
+            *dest_buffer = source_color;
         }
     }
 }
 
 // Image rendering
+
+void mr_draw_bitmap_framebuffer_monochrome_vertical(mr_t *mr,
+                                                    const mr_rectangle_t *rectangle,
+                                                    const uint8_t *bitmap)
+{
+    mr_point_t position;
+
+    for (position.y = rectangle->y;
+         position.y < rectangle->y + rectangle->height;
+         position.y++)
+    {
+        uint32_t source_index = 0;
+
+        for (position.x = rectangle->x;
+             position.x < rectangle->x + rectangle->width;
+             position.x++)
+        {
+            bool source_pixel = ((bitmap[source_index >> 3]) >> (source_index & 0b111)) & 0b1;
+            source_index++;
+            mr_color_t source_color = source_pixel ? mr->stroke_color : mr->fill_color;
+
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            mr_color_t *dest_buffer = (mr_color_t *)mr->buffer +
+                                      dest_position.y * mr->display_width +
+                                      dest_position.x;
+            uint8_t dest_buffer_mask = 1 << (dest_position.y & 0b111);
+
+            if (source_color >> 15)
+                *dest_buffer |= dest_buffer_mask;
+            else
+                *dest_buffer &= ~dest_buffer_mask;
+        }
+
+        bitmap += ((source_index + 7) >> 3);
+    }
+}
+
+void mr_draw_bitmap_framebuffer_color(mr_t *mr,
+                                      const mr_rectangle_t *rectangle,
+                                      const uint8_t *bitmap)
+{
+    mr_point_t position;
+
+    for (position.y = rectangle->y;
+         position.y < rectangle->y + rectangle->height;
+         position.y++)
+    {
+        uint32_t source_index = 0;
+
+        for (position.x = rectangle->x;
+             position.x < rectangle->x + rectangle->width;
+             position.x++)
+        {
+            bool source_pixel = ((bitmap[source_index >> 3]) >> (source_index & 0b111)) & 0b1;
+            source_index++;
+            mr_color_t source_color = source_pixel ? mr->stroke_color : mr->fill_color;
+
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            mr_color_t *dest_buffer = (mr_color_t *)mr->buffer +
+                                      dest_position.y * mr->display_width +
+                                      dest_position.x;
+
+            *dest_buffer = source_color;
+        }
+
+        bitmap += ((source_index + 7) >> 3);
+    }
+}
 
 void mr_draw_image_framebuffer_monochrome_vertical(mr_t *mr,
                                                    const mr_rectangle_t *rectangle,
@@ -402,16 +475,17 @@ void mr_draw_image_framebuffer_monochrome_vertical(mr_t *mr,
              position.x < rectangle->x + rectangle->width;
              position.x++)
         {
-            mr_point_t buffer_position = mr_rotate_point(mr, &position);
-            uint8_t *buffer = (uint8_t *)mr->buffer +
-                              (buffer_position.y >> 3) * mr->display_width +
-                              buffer_position.x;
-            uint8_t mask = 1 << (buffer_position.y & 0b111);
+            mr_color_t source_color = *image++;
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            mr_color_t *dest_buffer = (mr_color_t *)mr->buffer +
+                                      dest_position.y * mr->display_width +
+                                      dest_position.x;
+            uint8_t dest_buffer_mask = 1 << (dest_position.y & 0b111);
 
-            if ((*image++) >> 15)
-                *buffer |= mask;
+            if (source_color >> 15)
+                *dest_buffer |= dest_buffer_mask;
             else
-                *buffer &= ~mask;
+                *dest_buffer &= ~dest_buffer_mask;
         }
     }
 }
@@ -430,11 +504,14 @@ void mr_draw_image_framebuffer_color(mr_t *mr,
              position.x < rectangle->x + rectangle->width;
              position.x++)
         {
-            mr_point_t buffer_position = mr_rotate_point(mr, &position);
-            mr_color_t *buffer = (mr_color_t *)mr->buffer +
-                               buffer_position.y * mr->display_width +
-                               buffer_position.x;
-            *buffer = *image++;
+            mr_color_t source_color = *image++;
+
+            mr_point_t dest_position = mr_rotate_point(mr, &position);
+            mr_color_t *dest_buffer = (mr_color_t *)mr->buffer +
+                                      dest_position.y * mr->display_width +
+                                      dest_position.x;
+
+            *dest_buffer = source_color;
         }
     }
 }
@@ -442,8 +519,8 @@ void mr_draw_image_framebuffer_color(mr_t *mr,
 // Text rendering
 
 static inline mr_color_t mr_fast_blend(uint32_t foreground_color,
-                                     uint32_t background_color,
-                                     uint8_t alpha)
+                                       uint32_t background_color,
+                                       uint8_t alpha)
 {
     // alpha = (alpha_8bit + 4) >> 3;
 
@@ -462,11 +539,11 @@ static inline mr_color_t mr_fast_blend(uint32_t foreground_color,
 static void mr_update_blend_table(mr_t *mr)
 {
     if ((mr->blend_table[0] == mr->fill_color) &&
-        (mr->blend_table[COLOR_BLEND_TABLE_SIZE - 1] == mr->text_color))
+        (mr->blend_table[COLOR_BLEND_TABLE_SIZE - 1] == mr->stroke_color))
         return;
 
     for (int i = 0; i < COLOR_BLEND_TABLE_SIZE; i++)
-        mr->blend_table[i] = mr_fast_blend(mr->text_color,
+        mr->blend_table[i] = mr_fast_blend(mr->stroke_color,
                                            mr->fill_color,
                                            i);
 }
@@ -633,7 +710,7 @@ static inline uint8_t mr_get_alpha(uint8_t pixel_bitnum,
                           buffer_position.x;                         \
         uint8_t mask = 1 << (buffer_position.y & 0b111);             \
                                                                      \
-        if (mr->text_color)                                          \
+        if (mr->stroke_color)                                        \
             *buffer |= mask;                                         \
         else                                                         \
             *buffer &= ~mask;                                        \
@@ -675,9 +752,9 @@ mr_draw_glyph_template(mr_draw_glyph_framebuffer_monochrome_vertical_prototype,
         mr_is_point_in_rect(&position, rectangle))                   \
     {                                                                \
         mr_point_t buffer_position = mr_rotate_point(mr, &position); \
-        mr_color_t *buffer = (mr_color_t *)mr->buffer +                  \
-                           buffer_position.y * buffer_pitch +        \
-                           buffer_position.x;                        \
+        mr_color_t *buffer = (mr_color_t *)mr->buffer +              \
+                             buffer_position.y * buffer_pitch +      \
+                             buffer_position.x;                      \
                                                                      \
         *buffer = color;                                             \
     }                                                                \
@@ -1048,6 +1125,12 @@ void mr_init(mr_t *mr)
 
 // API functions
 
+void mr_set_stroke_color(mr_t *mr,
+                         mr_color_t color)
+{
+    mr->stroke_color = color;
+}
+
 void mr_set_fill_color(mr_t *mr,
                        mr_color_t color)
 {
@@ -1064,12 +1147,6 @@ void mr_set_font(mr_t *mr,
                  const uint8_t *font)
 {
     mr->font = font;
-}
-
-void mr_set_text_color(mr_t *mr,
-                       mr_color_t color)
-{
-    mr->text_color = color;
 }
 
 void mr_draw_text(mr_t *mr,
@@ -1159,6 +1236,18 @@ int16_t mr_get_descent(mr_t *mr)
 int16_t mr_get_line_height(mr_t *mr)
 {
     return mr_get_ascent(mr) + mr_get_descent(mr);
+}
+
+void mr_draw_bitmap(mr_t *mr,
+                    const mr_rectangle_t *rectangle,
+                    const uint8_t *bitmap)
+{
+#if defined(MCURENDERER_IMAGE_SUPPORT)
+
+    if (mr->draw_bitmap_callback)
+        mr->draw_bitmap_callback(mr, rectangle, bitmap);
+
+#endif
 }
 
 void mr_draw_image(mr_t *mr,

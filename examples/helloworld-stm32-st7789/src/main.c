@@ -66,9 +66,9 @@ int main(void)
             uint32_t index = y * 2 + x;
 
             mr_set_font(&mr, test_fonts[index]);
+            mr_set_stroke_color(&mr, mr_get_color(0xDF1B1B));
             mr_set_fill_color(&mr,
                               mr_get_color((x != y) ? 0xf7f7f7 : 0xe8ecf2));
-            mr_set_text_color(&mr, mr_get_color(0xDF1B1B));
 
             rectangle = (mr_rectangle_t){CONTENT_X + x * CELL_WIDTH,
                                          CONTENT_Y + y * CELL_HEIGHT,
@@ -118,9 +118,9 @@ int main(void)
             mr_set_font(&mr, font_material_symbolsR12_4);
 
         if (i < 1)
-            mr_set_text_color(&mr, mr_get_color(0x000000));
+            mr_set_stroke_color(&mr, mr_get_color(0x000000));
         else
-            mr_set_text_color(&mr, mr_get_color(0x707070));
+            mr_set_stroke_color(&mr, mr_get_color(0x707070));
 
         offset = (mr_point_t){
             FONT_ROBOTOM12_4_CAP_HEIGHT,

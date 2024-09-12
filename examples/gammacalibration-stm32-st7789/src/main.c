@@ -169,7 +169,7 @@ int main(void)
 
         mr_set_font(&mr, font_robotoM24_4);
         mr_set_fill_color(&mr, mr_get_color(0x000000));
-        mr_set_text_color(&mr, mr_get_color(0xffffff));
+        mr_set_stroke_color(&mr, mr_get_color(0xffffff));
 
         const mr_point_t textOffset = {
             (DISPLAY_WIDTH - mr_get_text_width(&mr, text)) / 2, 0};

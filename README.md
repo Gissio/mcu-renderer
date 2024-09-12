@@ -35,9 +35,11 @@ After that, set up a screen layout consisting of non-overlapping rectangles. Thi
 
 To draw a filled rectangle, call `mr_set_fill_color()` to set the fill color and `mr_draw_rectangle()` for the actual drawing. You can convert web colors (e.g. #ff2020) to mcu-renderer colors with the `mr_get_color` macro.
 
+To draw a bitmap in a user-provided `uint8_t` framebuffer, call `mr_draw_bitmap()`. Call `mr_set_stroke_color()` to set the foreground color, and `mr_set_fill_color()` to the background color.
+
 To draw an image in a user-provided RGB565 framebuffer, call `mr_draw_image()`.
 
-To draw a text rectangle, call `mr_set_font()` to set the font, `mr_set_fill_color()` to set the background color, `mr_set_text_color()` to set the text color, and `mr_draw_text()`, `mr_draw_text_utf8()` and `mr_draw_text_utf16()` to render C-strings, UTF-8 strings and UTF-16 strings, respectively. The `offset` parameter specifies the upper left corner of the text within the drawing rectangle: to center text horizontally, use the `mr_get_text_width()`, `mr_get_text_utf8_width()` and `mr_get_text_utf16_width()` functions; to center text vertically, get the current font's metrics with `mr_get_cap_height()` (height of uppercase A), `mr_get_ascent()` (top of line to [baseline](https://en.wikipedia.org/wiki/Baseline_(typography))), `mr_get_descent()` (baseline to bottom of line) and `mr_get_line_height()` (height of line). Make sure you set the font before retrieving any metrics.
+To draw a text rectangle, call `mr_set_font()` to set the font, `mr_set_fill_color()` to set the background color, `mr_set_stroke_color()` to set the text color, and `mr_draw_text()`, `mr_draw_text_utf8()` and `mr_draw_text_utf16()` to render C-strings, UTF-8 strings and UTF-16 strings, respectively. The `offset` parameter specifies the upper left corner of the text within the drawing rectangle: to center text horizontally, use the `mr_get_text_width()`, `mr_get_text_utf8_width()` and `mr_get_text_utf16_width()` functions; to center text vertically, get the current font's metrics with `mr_get_cap_height()` (height of uppercase A), `mr_get_ascent()` (top of line to [baseline](https://en.wikipedia.org/wiki/Baseline_(typography))), `mr_get_descent()` (baseline to bottom of line) and `mr_get_line_height()` (height of line). Make sure you set the font before retrieving any metrics.
 
 Rectangle bounds may not exceed the display size. The `offset` parameter of the text drawing functions is not limited.
 
