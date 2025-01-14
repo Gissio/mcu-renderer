@@ -70,6 +70,7 @@ void mr_st7789_init(mr_t *mr,
                     uint32_t textbuffer_size,
                     mr_sleep_callback_t sleep_callback,
                     mr_set_reset_callback_t set_reset_callback,
+                    mr_set_chipselect_callback_t set_chipselect_callback,
                     mr_set_command_callback_t set_command_callback,
                     mr_send_callback_t send_callback,
                     mr_send_callback_t send16_callback)
@@ -86,12 +87,15 @@ void mr_st7789_init(mr_t *mr,
     mr->draw_rectangle_callback = mr_st7789_draw_rectangle;
     mr->draw_string_callback = mr_draw_string_textbuffer;
     mr->draw_textbuffer_callback = mr_st7789_draw_textbuffer;
-#if defined(MCURENDERER_IMAGE_SUPPORT)
+#if defined(MCURENDERER_BITMAP_SUPPORT)
     mr->draw_bitmap_callback = mr_st7789_draw_bitmap;
+#endif
+#if defined(MCURENDERER_IMAGE_SUPPORT)
     mr->draw_image_callback = mr_st7789_draw_image;
 #endif
     mr->sleep_callback = sleep_callback;
     mr->set_reset_callback = set_reset_callback;
+    mr->set_chipselect_callback = set_chipselect_callback;
     mr->set_command_callback = set_command_callback;
     mr->send_callback = send_callback;
     mr->send16_callback = send16_callback;

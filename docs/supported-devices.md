@@ -35,6 +35,7 @@ To initialize, call:
                         uint32_t textbuffer_size,
                         mr_sleep_callback_t sleep_callback,
                         mr_set_reset_callback_t set_reset_callback,
+                        mr_set_chipselect_callback_t set_chipselect_callback,
                         mr_set_command_callback_t set_command_callback,
                         mr_send_callback_t send_callback,
                         mr_send_callback_t send16_callback);
@@ -43,7 +44,7 @@ To initialize, call:
 
 `textbuffer` is a user-provided framebuffer that should be capable of holding at least two characters, of minimum size `2 * font_boundingbox_width * font_boundingbox_height`. If this framebuffer is too small, text will not render correctly.
 
-`sleep_callback`, `set_reset_callback`, `set_command_callback`, `send_callback` and `send16_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES), set the display's command/data line (DCX, DC or A0) and send 8-bit and 16-bit data to the display.
+`sleep_callback`, `set_reset_callback`, `set_chipselect_callback`, `set_command_callback`, `send_callback` and `send16_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES), set the display's chip select line (CS), set the display's command/data line (DCX, DC or A0) and send 8-bit and 16-bit data to the display.
 
  mcu-renderer's display initialization is bare-bones. After calling `mr_st7789_init()` you should send a customized initialization sequence with `mr_send_sequence()`.
 
@@ -67,6 +68,7 @@ To initialize, call:
                         uint8_t *framebuffer,
                         mr_sleep_callback_t sleep_callback,
                         mr_set_reset_callback_t set_reset_callback,
+                        mr_set_chipselect_callback_t set_chipselect_callback,
                         mr_set_command_callback_t set_command_callback,
                         mr_send_callback_t send_callback);
 
@@ -74,6 +76,6 @@ To initialize, call:
 
 `framebuffer` is a user-provided framebuffer of size (width * (height + 7) / 8).
 
-`sleep_callback`, `set_reset_callback`, `set_command_callback` and `send_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES), set the display's command/data line (DCX, DC or A0) and send 8-bit data to the display.
+`sleep_callback`, `set_reset_callback`, `set_chipselect_callback`, `set_command_callback` and `send_callback` are user-provided callbacks. They should, respectively, delay the processor a certain number of milliseconds, set the display's reset line (RESX or RES),  set the display's chip select line (CSX or CS), set the display's command/data line (DCX, DC or A0) and send 8-bit data to the display.
 
 mcu-renderer's display initialization is bare-bones. After calling `mr_st7565_init()` you should send a customized initialization sequence with `mr_send_sequence()`.

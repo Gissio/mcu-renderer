@@ -46,18 +46,14 @@ void on_display_set_reset(bool value)
   digitalWrite(DISPLAY_RESX, !value);
 }
 
+void on_display_set_reset(bool value)
+{
+  digitalWrite(DISPLAY_CSX, !value);
+}
+
 void on_display_set_command(bool value)
 {
-  if (value)
-  {
-    // Trigger CS before command
-    digitalWrite(DISPLAY_CSX, HIGH);
-    digitalWrite(DISPLAY_CSX, LOW);
-
-    digitalWrite(DISPLAY_DCX, LOW);
-  }
-  else
-    digitalWrite(DISPLAY_DCX, HIGH);
+  digitalWrite(DISPLAY_DCX, !value);
 }
 
 void on_display_send(uint16_t value)
@@ -93,6 +89,7 @@ void init_display(mr_t *mr)
                  sizeof(display_text_buffer),
                  on_display_sleep,
                  on_display_set_reset,
+                 on_display_set_chipselect,
                  on_display_set_command,
                  on_display_send,
                  on_display_send16);

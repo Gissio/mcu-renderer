@@ -57,19 +57,21 @@ void on_display_set_reset(bool value)
                  DISPLAY_RESX_PIN);
 }
 
+void on_display_set_chipselect(bool value)
+{
+    if (value)
+        gpio_clear(DISPLAY_CSX_PORT,
+                   DISPLAY_CSX_PIN);
+    else
+        gpio_set(DISPLAY_CSX_PORT,
+                 DISPLAY_CSX_PIN);
+}
+
 void on_display_set_command(bool value)
 {
     if (value)
-    {
-        // Trigger CS before command
-        gpio_set(DISPLAY_CSX_PORT,
-                 DISPLAY_CSX_PIN);
-        gpio_clear(DISPLAY_CSX_PORT,
-                   DISPLAY_CSX_PIN);
-
         gpio_clear(DISPLAY_DCX_PORT,
                    DISPLAY_DCX_PIN);
-    }
     else
         gpio_set(DISPLAY_DCX_PORT,
                  DISPLAY_DCX_PIN);
@@ -136,6 +138,7 @@ void init_display(mr_t *mr)
                    sizeof(display_text_buffer),
                    on_display_sleep,
                    on_display_set_reset,
+                   on_display_set_chipselect,
                    on_display_set_command,
                    on_display_send,
                    on_display_send16);

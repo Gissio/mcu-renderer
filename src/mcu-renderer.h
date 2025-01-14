@@ -19,6 +19,10 @@ extern "C" {
 
 // Switches (defined as compiler define parameters)
 
+#if !defined(MCURENDERER_WITHOUT_BITMAP_SUPPORT)
+#define MCURENDERER_BITMAP_SUPPORT
+#endif
+
 #if !defined(MCURENDERER_WITHOUT_IMAGE_SUPPORT)
 #define MCURENDERER_IMAGE_SUPPORT
 #endif
@@ -136,6 +140,7 @@ void mr_draw_image_framebuffer_color(mr_t *mr,
 
 typedef void (*mr_sleep_callback_t)(uint32_t value);
 typedef void (*mr_set_reset_callback_t)(bool value);
+typedef void (*mr_set_chipselect_callback_t)(bool value);
 typedef void (*mr_set_command_callback_t)(bool value);
 typedef void (*mr_send_callback_t)(uint16_t value);
 
@@ -188,8 +193,10 @@ typedef void (*mr_draw_textbuffer_callback_t)(mr_t *mr,
 struct mr_t_
 {
     mr_draw_rectangle_callback_t draw_rectangle_callback;
-#if defined(MCURENDERER_IMAGE_SUPPORT)
+#if defined(MCURENDERER_BITMAP_SUPPORT)
     mr_draw_bitmap_callback_t draw_bitmap_callback;
+#endif
+#if defined(MCURENDERER_IMAGE_SUPPORT)
     mr_draw_image_callback_t draw_image_callback;
 #endif
     mr_draw_string_callback_t draw_string_callback;
@@ -197,6 +204,7 @@ struct mr_t_
     mr_draw_textbuffer_callback_t draw_textbuffer_callback;
     mr_sleep_callback_t sleep_callback;
     mr_set_reset_callback_t set_reset_callback;
+    mr_set_chipselect_callback_t set_chipselect_callback;
     mr_set_command_callback_t set_command_callback;
     mr_send_callback_t send_callback;
     mr_send_callback_t send16_callback;
@@ -216,6 +224,8 @@ struct mr_t_
     mr_color_t blend_table[COLOR_BLEND_TABLE_SIZE];
     const uint8_t *font;
     mr_glyph_t glyph;
+
+    bool chipselect;
 };
 
 void mr_init(mr_t *mr);
@@ -264,6 +274,7 @@ void mr_set_fill_color(mr_t *mr,
 void mr_draw_rectangle(mr_t *mr,
                        const mr_rectangle_t *rectangle);
 
+#if defined(MCURENDERER_BITMAP_SUPPORT)
 /**
  * Draws a monochrome bitmap using the stroke and fill colors.
  *
@@ -274,7 +285,9 @@ void mr_draw_rectangle(mr_t *mr,
 void mr_draw_bitmap(mr_t *mr,
                     const mr_rectangle_t *rectangle,
                     const uint8_t *bitmap);
+#endif
 
+#if defined(MCURENDERER_IMAGE_SUPPORT)
 /**
  * Draws a color RGB565 image.
  *
@@ -285,6 +298,7 @@ void mr_draw_bitmap(mr_t *mr,
 void mr_draw_image(mr_t *mr,
                    const mr_rectangle_t *rectangle,
                    const mr_color_t *image);
+#endif
 
 /**
  * Sets the font.

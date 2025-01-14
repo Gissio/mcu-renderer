@@ -285,9 +285,22 @@ static inline bool mr_is_point_in_rect(const mr_point_t *p,
 
 // I/O
 
+void mr_set_chipselect(mr_t *mr,
+                       bool value)
+{
+    if (value == mr->chipselect)
+        return;
+
+    mr->set_chipselect_callback(value);
+    mr->chipselect = value;
+}
+
 void mr_send_command(mr_t *mr,
                      uint8_t command)
 {
+    mr_set_chipselect(mr, false);
+    mr_set_chipselect(mr, true);
+
     mr_set_command(mr, true);
     mr_send(mr, command);
 }
@@ -330,6 +343,8 @@ void mr_send_sequence(mr_t *mr,
             break;
 
         case MR_SEQ_END:
+            mr_set_chipselect(mr, false);
+
             return;
         }
     }
@@ -354,8 +369,8 @@ void mr_draw_rectangle_framebuffer_monochrome_vertical(mr_t *mr,
 
             mr_point_t dest_position = mr_rotate_point(mr, &position);
             uint8_t *dest_buffer = (uint8_t *)mr->buffer +
-                              (dest_position.y >> 3) * mr->display_width +
-                              dest_position.x;
+                                   (dest_position.y >> 3) * mr->display_width +
+                                   dest_position.x;
             uint8_t dest_buffer_mask = 1 << (dest_position.y & 0b111);
 
             if (source_color >> 15)
@@ -1141,6 +1156,8 @@ void mr_draw_rectangle(mr_t *mr,
                        const mr_rectangle_t *rectangle)
 {
     mr->draw_rectangle_callback(mr, rectangle);
+
+    mr_set_chipselect(mr, false);
 }
 
 void mr_set_font(mr_t *mr,
@@ -1159,6 +1176,8 @@ void mr_draw_text(mr_t *mr,
                              rectangle,
                              offset,
                              mr_decode_c_string);
+
+    mr_set_chipselect(mr, false);
 }
 
 void mr_draw_utf8_text(mr_t *mr,
@@ -1171,6 +1190,8 @@ void mr_draw_utf8_text(mr_t *mr,
                              rectangle,
                              offset,
                              mr_decode_utf8);
+
+    mr_set_chipselect(mr, false);
 }
 
 void mr_draw_utf16_text(mr_t *mr,
@@ -1183,6 +1204,8 @@ void mr_draw_utf16_text(mr_t *mr,
                              rectangle,
                              offset,
                              mr_decode_utf16);
+
+    mr_set_chipselect(mr, false);
 }
 
 int16_t mr_get_text_width(mr_t *mr,
@@ -1238,26 +1261,24 @@ int16_t mr_get_line_height(mr_t *mr)
     return mr_get_ascent(mr) + mr_get_descent(mr);
 }
 
+#if defined(MCURENDERER_BITMAP_SUPPORT)
 void mr_draw_bitmap(mr_t *mr,
                     const mr_rectangle_t *rectangle,
                     const uint8_t *bitmap)
 {
-#if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr->draw_bitmap_callback(mr, rectangle, bitmap);
 
-    if (mr->draw_bitmap_callback)
-        mr->draw_bitmap_callback(mr, rectangle, bitmap);
-
-#endif
+    mr_set_chipselect(mr, false);
 }
+#endif
 
+#if defined(MCURENDERER_IMAGE_SUPPORT)
 void mr_draw_image(mr_t *mr,
                    const mr_rectangle_t *rectangle,
                    const mr_color_t *image)
 {
-#if defined(MCURENDERER_IMAGE_SUPPORT)
+    mr->draw_image_callback(mr, rectangle, image);
 
-    if (mr->draw_image_callback)
-        mr->draw_image_callback(mr, rectangle, image);
-
-#endif
+    mr_set_chipselect(mr, false);
 }
+#endif
