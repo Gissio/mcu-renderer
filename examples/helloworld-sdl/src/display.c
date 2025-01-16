@@ -2,7 +2,7 @@
  * MCU renderer example
  * SDL display
  *
- * (C) 2023-2024 Gissio
+ * (C) 2023-2025 Gissio
  *
  * License: MIT
  */

@@ -2,7 +2,7 @@
  * MCU renderer
  * ST7789 on STM32
  *
- * (C) 2023-2024 Gissio
+ * (C) 2023-2025 Gissio
  *
  * License: MIT
  */

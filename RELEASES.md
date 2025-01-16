@@ -1,5 +1,10 @@
 # Releases
 
+## 1.0.5
+
+* Fixed ST7565 buffer overflow.
+* Improved handling of chipselect.
+
 ## 1.0.4
 
 * Added chipselect callback.

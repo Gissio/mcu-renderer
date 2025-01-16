@@ -2,7 +2,7 @@
  * MCU renderer
  * Arduino system code
  *
- * (C) 2023-2024 Gissio
+ * (C) 2023-2025 Gissio
  *
  * License: MIT
  */
