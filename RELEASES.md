@@ -1,5 +1,10 @@
 # Releases
 
+## 1.0.6
+
+* Fixed text buffer error.
+* Removed unused mr->buffer_pitch.
+
 ## 1.0.5
 
 * Fixed ST7565 buffer overflow.
