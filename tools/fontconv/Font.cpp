@@ -7,6 +7,8 @@
  * License: MIT
  */
 
+#include <climits>
+
 #include "Font.h"
 
 MinMax::MinMax()

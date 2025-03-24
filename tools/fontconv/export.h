@@ -10,7 +10,7 @@
 #if !defined(EXPORT_C_H)
 #define EXPORT_C_H
 
-#include "font.h"
+#include "Font.h"
 
 void exportFont(Font &font,
                  std::string variableName,

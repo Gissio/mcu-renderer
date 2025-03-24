@@ -13,8 +13,9 @@
 #include <cstdint>
 #include <set>
 #include <string>
+#include <climits>
 
-#include "font.h"
+#include "Font.h"
 
 Font loadFreeTypeFont(std::string filename,
                       std::set<Charcode> &charcodeSet,
