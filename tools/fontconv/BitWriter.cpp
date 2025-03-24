@@ -7,7 +7,7 @@
  * License: MIT
  */
 
-#include "bitwriter.h"
+#include "BitWriter.h"
 
 BitWriter::BitWriter()
 {

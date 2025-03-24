@@ -10,8 +10,8 @@
 #if !defined(ENCODER_H)
 #define ENCODER_H
 
-#include "font.h"
-#include "bitwriter.h"
+#include "Font.h"
+#include "BitWriter.h"
 
 void encodeFont(Font &font,
                 uint32_t bitsPerPixel,

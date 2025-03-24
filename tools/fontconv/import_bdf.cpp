@@ -9,6 +9,7 @@
 
 #include <cstdlib>
 #include <fstream>
+#include <climits>
 
 #include "import_bdf.h"
 #include "utils.h"

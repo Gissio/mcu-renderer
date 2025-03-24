@@ -14,7 +14,7 @@
 #include <set>
 #include <string>
 
-#include "font.h"
+#include "Font.h"
 
 Font loadBDFFont(std::string filename,
                  std::set<Charcode> &charcodeSet);
