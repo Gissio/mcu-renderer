@@ -29,6 +29,7 @@ void printHelp(void)
          << "-p <size>   Set point size for rasterizing fonts (default: " << DEFAULT_POINT_SIZE << ").\n"
          << "-b <size>   Set bits per pixel (default: " << DEFAULT_BITS_PER_PIXEL << ").\n"
          << "-s <subset> Specify a subset of Unicode characters to convert.\n"
+         << "-u <filename> Specify a text file with utf8 characters to convert.\n"
          << "-c <size>   Override the font cap height.\n"
          << "-a <size>   Override the font ascent (baseline to top of line).\n"
          << "-d <size>   Override the font descent (bottom of line to baseline).\n"
@@ -56,6 +57,7 @@ int main(int argc, char **argv)
     string variableName;
     string inputFilename;
     string outputFilename;
+    string textFilename;
 
     for (uint32_t i = 0; i < args.size(); i++)
     {
@@ -121,6 +123,13 @@ int main(int argc, char **argv)
             if (i < args.size())
                 variableName = args[i];
         }
+        else if (args[i].compare("-u") == 0)
+        {
+            i++;
+
+            if (i < args.size())
+                textFilename = args[i];
+        }
         else if (inputFilename == "")
             inputFilename = args[i];
         else if (outputFilename == "")
@@ -139,6 +148,9 @@ int main(int argc, char **argv)
         Font font;
 
         set<Charcode> charcodeSet = parseCharcodes(charcodes);
+
+        if (!textFilename.empty())
+            charcodeSet.merge(parseUtf8(textFilename));
 
         if (to_lower(inputFilename).ends_with(".bdf"))
         {
