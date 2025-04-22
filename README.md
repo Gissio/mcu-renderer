@@ -67,11 +67,31 @@ See the [examples](examples) folder.
 
 ## Preparing fonts
 
-In order to convert your fonts to the mcu-renderer format, use the `fontconv` tool (available in binary form under [releases](releases)), which lets you convert both `.bdf` and `.pcf` bitmap fonts as well as `.ttf`, `.ttc`, `.otf`, `.otc` and `.woff` vector fonts.
+In order to convert your fonts to the mcu-renderer format, use the `fontconv` tool (available in [tools](tools)), which lets you convert both `.bdf` and `.pcf` bitmap fonts as well as `.ttf`, `.ttc`, `.otf`, `.otc` and `.woff` vector fonts.
+
+To use `fontconv`, install [Python](https://www.python.org) and [PIP](https://pip.pypa.io/en/stable/). You must also install the necessary requirements by running the following command in a terminal:
+
+    pip install -r tools/requirements.txt
+
+To get help about `fontconv`, run the following command in a terminal:
+
+    python tools/fontconv.py --help
 
 In digital typography, 72 points is usually defined as 96 pixels. For rasterizing a vector font to a given pixel size, convert the pixel size to a point size by multiplying by the factor 4/3. Not all fonts follow this rule, so you might need to tweak this factor.
 
 `fontconv` calculates the cap height (the height of the uppercase letter A) as the difference between the ascent height (top of line to baseline) and the descent height (baseline to bottom of line). On some fonts this calculation is inaccurate, so you can override the cap height to achieve the correct result. You can also override the ascent height and the descent height.
+
+## Determining necessary characters
+
+To determine the necessary characters in your project, you can use the `textproc` tool (available in [tools](tools)), which lets you read text files or C-language files and produce Unicode codepoint sets.
+
+To use `textproc`, install [Python](https://www.python.org) and [PIP](https://pip.pypa.io/en/stable/). You must also install the necessary requirements by running the following command in a terminal:
+
+    pip install -r tools/requirements.txt
+
+To get help about `textproc`, run the following command in a terminal:
+
+    python tools/textproc.py --help
 
 ## Additional resources
 
