@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Create and activate virtual environment
+VENV_DIR="venv" 
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv "$VENV_DIR"
+
+    source "$VENV_DIR/bin/activate"
+
+    pip install -r ../tools/requirements.txt
+else
+    source "$VENV_DIR/bin/activate"
+fi
+
+python ../tools/fontconv.py -s 0x20-0x7e -p 17 -b 1 -a 17 -c 12 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 17 -b 2 -a 17 -c 12 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 17 -b 3 -a 17 -c 12 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 17 -b 4 -a 17 -c 12 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM12_4bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 25 -b 1 -a 25 -c 18 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 25 -b 2 -a 25 -c 18 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 25 -b 3 -a 25 -c 18 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 25 -b 4 -a 25 -c 18 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM18_4bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 34 -b 1 -a 34 -c 24 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 34 -b 2 -a 34 -c 24 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 34 -b 3 -a 34 -c 24 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 34 -b 4 -a 34 -c 24 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM24_4bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 50 -b 1 -a 50 -c 36 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 50 -b 2 -a 50 -c 36 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 50 -b 3 -a 50 -c 36 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 50 -b 4 -a 50 -c 36 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM36_4bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 67 -b 1 -a 66 -c 48 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 67 -b 2 -a 66 -c 48 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 67 -b 3 -a 66 -c 48 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 67 -b 4 -a 66 -c 48 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM48_4bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 100 -b 1 -a 96 -c 72 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_1bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 100 -b 2 -a 96 -c 72 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_2bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 100 -b 3 -a 96 -c 72 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_3bpp.h
+python ../tools/fontconv.py -s 0x20-0x7e -p 100 -b 4 -a 96 -c 72 Roboto-Medium.ttf ../src/mcu-renderer-fonts/font_robotoM72_4bpp.h
+
+python ../tools/fontconv.py -s 0xe1a3-0xe1aa -p 18 -c 16 MaterialSymbolsOutlined-Regular.ttf ../src/mcu-renderer-fonts/font_material_symbolsR12_4bpp.h
+
+python ../tools/fontconv.py -s 0x20-0x7e roboto-matrixR8.bdf ../src/mcu-renderer-fonts/font_roboto_matrixR8.h
+python ../tools/fontconv.py -s 0x20-0x7e roboto-matrixR24.bdf ../src/mcu-renderer-fonts/font_roboto_matrixR24.h
+
+python ../tools/fontconv.py -s 0x20-0x7e tiny5-Regular.bdf ../src/mcu-renderer-fonts/font_tiny5-Regular.h
