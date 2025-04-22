@@ -46,7 +46,7 @@ void on_display_set_reset(bool value)
   digitalWrite(DISPLAY_RESX, !value);
 }
 
-void on_display_set_reset(bool value)
+void on_display_set_chipselect(bool value)
 {
   digitalWrite(DISPLAY_CSX, !value);
 }

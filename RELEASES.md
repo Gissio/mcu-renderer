@@ -1,5 +1,11 @@
 # Releases
 
+## 1.0.7
+
+* Ported fontconv tool to Python.
+* Added textproc tool for calculating Unicode codepoint sets from text/.c files.
+* Fixed examples so they compile correctly.
+
 ## 1.0.6
 
 * Fixed text buffer error.
