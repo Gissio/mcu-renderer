@@ -104,6 +104,34 @@ def parse_codepoint_set(codepoint_set):
     return codepoints
 
 
+def build_codepoint_set(codepoints):
+    if not codepoints:
+        return ''
+
+    def build_codepoint_range(start, end):
+        if start == end:
+            return f'{hex(start)}'
+        else:
+            return f'{hex(start)}-{hex(end)}'
+
+    codepoint_list = list(codepoints)
+    codepoint_list.sort()
+
+    codepoint_ranges = []
+    start = codepoint_list[0]
+    prev = codepoint_list[0]
+
+    for codepoint in codepoint_list[1:]:
+        if codepoint != prev + 1:
+            codepoint_ranges.append(build_codepoint_range(start, prev))
+            start = codepoint
+        prev = codepoint
+
+    codepoint_ranges.append(build_codepoint_range(start, prev))
+
+    return codepoint_ranges
+
+
 def get_bdf_property(bdf_font, key, default_value):
     key_encoded = key.encode('utf-8')
 
@@ -136,7 +164,6 @@ def load_bitmap_font(path, codepoint_set, font_variable_name):
             font.name += ' ' + weight_name
         font.copyright = get_bdf_property(
             bdf_font, 'COPYRIGHT', bdf_font.comments)
-        font.codepoint_set = codepoint_set
         font.variable_name = font_variable_name
 
         # Glyphs
@@ -222,7 +249,6 @@ def load_vector_font(path, codepoint_set, font_variable_name, points, pixel_bitn
             font.name = os.path.splitext(basename)[0]
         if points:
             font.name += f' {int(points)}'
-        font.codepoint_set = codepoint_set
         font.variable_name = font_variable_name
 
         # Glyphs
@@ -585,10 +611,7 @@ def encode_font(font):
 
 
 def write_encoded_font(font, encoded_font, path):
-    if font.codepoint_set:
-        codepoint_set = font.codepoint_set
-    else:
-        codepoint_set = '(all)'
+    codepoint_set = '-'.join(build_codepoint_set(font.glyphs.keys()))
 
     define_name = font.variable_name.upper()
 
