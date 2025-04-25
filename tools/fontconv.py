@@ -611,7 +611,7 @@ def encode_font(font):
 
 
 def write_encoded_font(font, encoded_font, path):
-    codepoint_set = '-'.join(build_codepoint_set(font.glyphs.keys()))
+    codepoint_set = ','.join(build_codepoint_set(font.glyphs.keys()))
 
     define_name = font.variable_name.upper()
 
