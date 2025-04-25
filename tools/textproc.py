@@ -77,9 +77,6 @@ def filter_c_strings(text):
     # Remove multi-line comments (/*...*/)
     text = re.sub(r'/\*.*?\*/', '', text, flags=re.DOTALL)
 
-    # Remove preprocessor directives (#...)
-    text = re.sub(r'(#.*?)".*?"', r'\1', text)
-
     # Find all strings in double quotes, including multi-line strings
     strings = re.findall(r'"((?:[^"\\]|\\.)*?)"', text, re.DOTALL)
 
