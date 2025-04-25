@@ -116,6 +116,7 @@ def build_codepoint_set(codepoints):
 
     return codepoint_ranges
 
+
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser(
@@ -150,7 +151,6 @@ def main():
 
         # Print result
         print(','.join(codepoint_set))
-
 
     except Exception as e:
         print('error: ' + str(e))
