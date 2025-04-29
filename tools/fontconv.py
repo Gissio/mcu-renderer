@@ -82,14 +82,14 @@ def parse_codepoint_set(codepoint_set):
         codepoint_ranges = codepoint_set.split(',')
 
         for codepoint_range in codepoint_ranges:
-            codepoint_range_items = codepoint_range.split('-')
+            codepoint_range_items = codepoint_range.split('-', 2)
             if len(codepoint_range_items) == 1:
                 value = int(codepoint_range_items[0], 0)
 
                 if 0 <= value:
                     codepoints.append(value)
                 else:
-                    raise RuntimeError('invalid codepoint set')
+                    raise RuntimeError('invalid codepoint set: negative value')
             elif len(codepoint_range_items) == 2:
                 start = int(codepoint_range_items[0], 0)
                 end = int(codepoint_range_items[1], 0)
@@ -97,9 +97,8 @@ def parse_codepoint_set(codepoint_set):
                 if 0 <= start <= end:
                     codepoints.extend(list(range(start, end + 1)))
                 else:
-                    raise RuntimeError('invalid codepoint set')
-            else:
-                raise RuntimeError('invalid codepoint set')
+                    raise RuntimeError(
+                        f'invalid codepoint set: {codepoint_range_items[0]} > {codepoint_range_items[1]}')
 
     return codepoints
 
@@ -723,12 +722,14 @@ def main():
 
     # Verify missing characters
     requested_codepoints = parse_codepoint_set(args.codepoint_set)
-    available_codepoints = font.glyphs.keys()
-    missing_codepoints = list(
-        set(requested_codepoints) - set(available_codepoints))
-    if len(missing_codepoints):
-        print('error: requested codepoints are not available: ' + ','.
-              join(build_codepoint_set(missing_codepoints)))
+    if len(requested_codepoints):
+        available_codepoints = font.glyphs.keys()
+        missing_codepoints = list(
+            set(requested_codepoints) - set(available_codepoints))
+        if len(missing_codepoints):
+            print(missing_codepoints)
+            print('error: requested codepoints are not available: ' +
+                  build_codepoint_set(missing_codepoints))
 
     # Encode
     encoded_font = encode_font(font)
