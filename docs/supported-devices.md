@@ -1,4 +1,4 @@
-# Supported Devices
+# Supported devices
 
 This document outlines the supported display devices for the `mcu-renderer` library, including initialization instructions and configuration details for each.
 
@@ -6,7 +6,7 @@ This document outlines the supported display devices for the `mcu-renderer` libr
 
 The `mcu-renderer` library supports multiple display types, including SDL for PC-based testing and hardware displays like ST7789, ILI9341, and ST7565. Each display requires specific initialization functions and configurations, detailed below. Ensure you include the appropriate header file and define necessary preprocessor symbols for your target display.
 
-## SDL (PC Testing)
+## SDL (PC testing)
 
 The SDL backend is ideal for testing graphics output on a PC, simulating various display types.
 
@@ -81,7 +81,7 @@ void mr_st7789_init(mr_t *mr,
   - `send_callback`: Sends 8-bit data to the display.
   - `send16_callback`: Sends 16-bit data to the display.
 
-#### Post-Initialization
+#### Post-initialization
 The initialization is minimal. Send a custom initialization sequence using `mr_send_sequence()` after calling `mr_st7789_init()`.
 
 #### Example
@@ -150,7 +150,7 @@ void mr_st7565_init(mr_t *mr,
   - `set_command_callback`: Sets the command/data line (DCX, DC, or A0).
   - `send_callback`: Sends 8-bit data to the display.
 
-#### Post-Initialization
+#### Post-initialization
 Send a custom initialization sequence using `mr_send_sequence()` after calling `mr_st7565_init()`.
 
 #### Example
@@ -158,16 +158,16 @@ Send a custom initialization sequence using `mr_send_sequence()` after calling `
 uint8_t framebuffer[1024]; // For 128x64 display
 mr_st7565_init(&mr, 128, 64, MR_ROTATION_0, framebuffer,
                sleep_ms, set_reset, set_cs, set_dc, send_8bit);
-mr_send_sequence(&mr, st7565_init_sequence, sizeof(st7565_init_sequence));
+mr_send_sequence(&mr, st7565_init_sequence);
 ```
 
 ## Best Practices
-- **Framebuffer Sizing**: Ensure framebuffers meet minimum size requirements to avoid rendering issues.
-- **Custom Initialization**: Always follow initialization calls with `mr_send_sequence()` to configure the display properly.
-- **Callback Implementation**: Implement callbacks carefully, ensuring they interact correctly with your hardware's GPIO and communication protocols.
+- **Framebuffer sizing**: Ensure framebuffers meet minimum size requirements to avoid rendering issues.
+- **Custom initialization**: Always follow initialization calls with `mr_send_sequence()` to configure the display properly.
+- **Callback implementation**: Implement callbacks carefully, ensuring they interact correctly with your hardware's GPIO and communication protocols.
 - **Testing with SDL**: Use the SDL backend to validate rendering logic before deploying to hardware.
 
 ## Troubleshooting
-- **Text Not Rendering (ST7789/ILI9341)**: Verify that `textbuffer` is large enough.
-- **Display Not Responding**: Check callback implementations and ensure the initialization sequence is correct.
-- **SDL Window Issues**: Confirm the `MCURENDERER_SDL` symbol is defined and SDL libraries are linked.
+- **Text not rendering (ST7789/ILI9341)**: Verify that `textbuffer` is large enough.
+- **Display not responding**: Check callback implementations and ensure the initialization sequence is correct.
+- **SDL window issues**: Confirm the `MCURENDERER_SDL` symbol is defined and SDL libraries are linked.

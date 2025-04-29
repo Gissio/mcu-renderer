@@ -18,7 +18,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 
 ## Supported devices
 
-- [SDL](docs/supported-devices.md#sdl) (for PC emulation)
+- [SDL](docs/supported-devices.md#sdl) (for PC testing)
 - [ST7789](docs/supported-devices.md#st7789) (color LCD)
 - [ILI9341](docs/supported-devices.md#ili9341) (color LCD)
 - [ST7565](docs/supported-devices.md#st7565) (monochrome LCD)
