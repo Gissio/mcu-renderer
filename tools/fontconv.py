@@ -10,7 +10,7 @@ import os
 from bdflib import reader
 import freetype
 
-DEFAULT_POINTS = 12
+DEFAULT_PIXELS = 16
 DEFAULT_BITS_PER_PIXEL = 4
 
 
@@ -206,7 +206,7 @@ def load_bitmap_font(path, codepoint_set, font_variable_name):
         return None
 
 
-def load_vector_font(path, codepoint_set, font_variable_name, points, pixel_bitnum):
+def load_vector_font(path, codepoint_set, font_variable_name, pixels, pixel_bitnum):
     try:
         codepoints = parse_codepoint_set(codepoint_set)
 
@@ -214,9 +214,9 @@ def load_vector_font(path, codepoint_set, font_variable_name, points, pixel_bitn
         face = freetype.Face(path)
 
         if face.is_scalable:
-            face.set_char_size(int(64 * points))
+            face.set_char_size(int(64 * pixels))
         else:
-            points = 0
+            pixels = 0
 
         font = Font()
 
@@ -238,17 +238,17 @@ def load_vector_font(path, codepoint_set, font_variable_name, points, pixel_bitn
                 pass
             if name.name_id == 0:  # Copyright
                 font.copyright = value
-            elif name.name_id == 1: # Family
+            elif name.name_id == 1:  # Family
                 font_family = value
-            elif name.name_id == 2: # Subfamily
+            elif name.name_id == 2:  # Subfamily
                 font_subfamily = value
         if font_family:
             font.name = f'{font_family} {font_subfamily}'.strip()
         else:
             basename = os.path.basename(path)
             font.name = os.path.splitext(basename)[0]
-        if points:
-            font.name += f' {int(points)}'
+        if pixels:
+            font.name += f' {int(3 * 4 / pixels)}'
         font.variable_name = font_variable_name
 
         # Glyphs
@@ -655,11 +655,11 @@ def main():
                         dest='codepoint_set',
                         default='',
                         help='set Unicode codepoints to convert (e.g. "32-255" or "0x2e,0x30-0x39")')
-    parser.add_argument('-p', '--points',
-                        dest='points',
+    parser.add_argument('-p', '--pixels',
+                        dest='pixels',
                         type=float,
-                        default=DEFAULT_POINTS,
-                        help=f'set points for font rasterization (may be fractional)')
+                        default=DEFAULT_PIXELS,
+                        help=f'set number of pixels per em-square for font rasterization (supports fractional values)')
     parser.add_argument('-b', '--bits-per-pixel',
                         dest='bits_per_pixel',
                         type=int,
@@ -685,8 +685,8 @@ def main():
     parser.add_argument('output_filename')
     args = parser.parse_args()
 
-    if args.points <= 0:
-        print('error: point size must be positive')
+    if args.pixels <= 0:
+        print('error: pixels must be positive')
         exit(1)
 
     if args.variable_name is not None:
@@ -698,7 +698,7 @@ def main():
             c if c.isalnum() else '_' for c in basename)
 
     # Read font
-    print(f'Converting {args.output_filename}...')
+    print(f'Building {args.output_filename}...')
 
     if args.input_filename.lower().endswith('.bdf'):
         font = load_bitmap_font(args.input_filename,
@@ -708,7 +708,7 @@ def main():
         font = load_vector_font(args.input_filename,
                                 args.codepoint_set,
                                 font_variable_name,
-                                args.points,
+                                args.pixels,
                                 args.bits_per_pixel)
 
     if font is None:
@@ -720,6 +720,15 @@ def main():
         font.descent = args.descent
     if args.cap_height is not None:
         font.cap_height = args.cap_height
+
+    # Verify missing characters
+    requested_codepoints = parse_codepoint_set(args.codepoint_set)
+    available_codepoints = font.glyphs.keys()
+    missing_codepoints = list(
+        set(requested_codepoints) - set(available_codepoints))
+    if len(missing_codepoints):
+        print('error: requested codepoints are not available: ' + ','.
+              join(build_codepoint_set(missing_codepoints)))
 
     # Encode
     encoded_font = encode_font(font)
