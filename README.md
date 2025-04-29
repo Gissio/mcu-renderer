@@ -30,7 +30,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 - Hardware-specific development tools (e.g., SDKs for ST7789, ILI9341, or ST7565).
 - SDL library for PC testing (optional).
 
-## Quick Start
+## Quick start
 
 1. **Include the library**: Add the device-specific header file (see [Supported Devices](docs/supported-devices.md)).
 2. **Initialize the display**:
@@ -51,7 +51,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
    ```c
    mr_xxx_refresh_screen();
    ```
-## Setup and Usage
+## Setup and usage
 
 1. **Initialize the library**:
    - Call `mr_xxx_init()` to set up the display (e.g., `mr_st7789_init()`).
@@ -94,7 +94,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
      - Center text horizontally using `mr_get_text_width()` (or `utf8`/`utf16` variants).
      - Center vertically using font metrics: `mr_get_cap_height()`, `mr_get_ascent()`, `mr_get_descent()`, or `mr_get_line_height()`.
 
-5. **Refresh Screen** (Monochrome or SDL):
+5. **Refresh screen** (Monochrome or SDL):
    - Call `mr_xxx_refresh_screen()` after drawing to update the display.
 
 ## Font metrics
@@ -164,13 +164,13 @@ Run `textproc` to process files:
 python tools/textproc.py --help
 ```
 
-## Additional Resources
+## Additional resources
 
 - [Roboto Font](https://fonts.google.com/specimen/Roboto): Ideal for embedded systems.
 - [Material Symbols](https://fonts.google.com/icons): Symbol font for icons.
 - [FontForge](https://fontforge.org/): Vector font editor.
 - [Bits'N'Picas](https://github.com/kreativekorp/bitsnpicas): Bitmap font editor.
 - [FontDrop!](https://fontdrop.info/): Online glyph viewer.
-- [Oh My Glyph](https://www.ohmyglyph.com/): Online glyph copy-paste tool.
-- [Pinetools Color Blender](https://pinetools.com/blend-colors): Online color blending tool.
-- [RGB565 Color Picker](https://rgbcolorpicker.com/565): Online RGB565 color selector.
+- [Oh my glyph](https://www.ohmyglyph.com/): Online glyph copy-paste tool.
+- [Pinetools color blender](https://pinetools.com/blend-colors): Online color blending tool.
+- [RGB565 color picker](https://rgbcolorpicker.com/565): Online RGB565 color selector.

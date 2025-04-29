@@ -161,7 +161,7 @@ mr_st7565_init(&mr, 128, 64, MR_ROTATION_0, framebuffer,
 mr_send_sequence(&mr, st7565_init_sequence);
 ```
 
-## Best Practices
+## Best practices
 - **Framebuffer sizing**: Ensure framebuffers meet minimum size requirements to avoid rendering issues.
 - **Custom initialization**: Always follow initialization calls with `mr_send_sequence()` to configure the display properly.
 - **Callback implementation**: Implement callbacks carefully, ensuring they interact correctly with your hardware's GPIO and communication protocols.
