@@ -247,7 +247,7 @@ def load_vector_font(path, codepoint_set, font_variable_name, pixels, pixel_bitn
             basename = os.path.basename(path)
             font.name = os.path.splitext(basename)[0]
         if pixels:
-            font.name += f' {int(3 * 4 / pixels)}'
+            font.name += f' {int(pixels)}'
         font.variable_name = font_variable_name
 
         # Glyphs
