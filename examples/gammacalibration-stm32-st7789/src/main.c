@@ -14,7 +14,7 @@
 #include "keyboard.h"
 #include "system.h"
 
-#include "mcu-renderer-fonts/font_robotoM24_4.h"
+#include "mcu-renderer-fonts/font_robotoM24_4bpp.h"
 
 #define GRADIENT_HEIGHT ((DISPLAY_HEIGHT - 40) / 4)
 
@@ -167,7 +167,7 @@ int main(void)
         strcat(text, "=");
         strcat_uint8(text, value);
 
-        mr_set_font(&mr, font_robotoM24_4);
+        mr_set_font(&mr, font_robotoM24_4bpp);
         mr_set_fill_color(&mr, mr_get_color(0x000000));
         mr_set_stroke_color(&mr, mr_get_color(0xffffff));
 

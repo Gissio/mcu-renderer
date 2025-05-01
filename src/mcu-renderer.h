@@ -123,8 +123,8 @@ void mr_draw_string_textbuffer(mr_t *mr,
                                mr_get_charcode_callback_t get_charcode_callback);
 
 void mr_draw_bitmap_framebuffer_monochrome_vertical(mr_t *mr,
-                                                   const mr_rectangle_t *rectangle,
-                                                   const uint8_t *bitmap);
+                                                    const mr_rectangle_t *rectangle,
+                                                    const uint8_t *bitmap);
 void mr_draw_bitmap_framebuffer_color(mr_t *mr,
                                       const mr_rectangle_t *rectangle,
                                       const uint8_t *bitmap);
@@ -317,7 +317,7 @@ void mr_set_font(mr_t *mr,
  * @param mr The mcu-renderer instance.
  * @param str The string.
  * @param rectangle The rectangle containing the text.
- * @param offset The upper left corner of the text relative to the text rectangle.
+ * @param offset The upper (ascent) left corner of the text relative to the text rectangle.
  */
 void mr_draw_text(mr_t *mr,
                   const char *str,
@@ -330,7 +330,7 @@ void mr_draw_text(mr_t *mr,
  * @param mr The mcu-renderer instance.
  * @param str The string.
  * @param rectangle The rectangle containing the text.
- * @param offset The upper left corner of the text relative to the text rectangle.
+ * @param offset The upper (ascent) left corner of the text relative to the text rectangle.
  */
 void mr_draw_utf8_text(mr_t *mr,
                        const uint8_t *str,
@@ -343,7 +343,7 @@ void mr_draw_utf8_text(mr_t *mr,
  * @param mr The mcu-renderer instance.
  * @param str The string.
  * @param rectangle The rectangle containing the text.
- * @param offset The upper left corner of the text relative to the text rectangle.
+ * @param offset The upper (ascent) left corner of the text relative to the text rectangle.
  */
 void mr_draw_utf16_text(mr_t *mr,
                         const uint16_t *str,
@@ -353,7 +353,7 @@ void mr_draw_utf16_text(mr_t *mr,
 /**
  * Returns the pixel width of a C-string.
  *
- * The pixel width is calculated from initial to final pen position.
+ * The pixel width is calculated adding the respective glyph widths.
  *
  * @param mr The mcu-renderer instance.
  * @param str The string.
@@ -366,7 +366,7 @@ int16_t mr_get_text_width(mr_t *mr,
 /**
  * Returns the pixel width of a UTF-8 string.
  *
- * The pixel width is calculated from initial to final pen position.
+ * The pixel width is calculated adding the respective glyph widths.
  *
  * @param mr The mcu-renderer instance.
  * @param str The string.
@@ -379,7 +379,7 @@ int16_t mr_get_utf8_text_width(mr_t *mr,
 /**
  * Returns the pixel width of a UTF-16 string.
  *
- * The pixel width is calculated from initial to final pen position.
+ * The pixel width is calculated adding the respective glyph widths.
  *
  * @param mr The mcu-renderer instance.
  * @param str The string.

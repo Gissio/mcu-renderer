@@ -13,14 +13,14 @@
 #include "display.h"
 #include "system.h"
 
-#include "mcu-renderer-fonts/font_material_symbolsR12_4.h"
+#include "mcu-renderer-fonts/font_material_symbolsR12_4bpp.h"
 
-#include "mcu-renderer-fonts/font_robotoM12_4.h"
+#include "mcu-renderer-fonts/font_robotoM12_4bpp.h"
 
-#include "mcu-renderer-fonts/font_robotoM48_1.h"
-#include "mcu-renderer-fonts/font_robotoM48_2.h"
-#include "mcu-renderer-fonts/font_robotoM48_3.h"
-#include "mcu-renderer-fonts/font_robotoM48_4.h"
+#include "mcu-renderer-fonts/font_robotoM48_1bpp.h"
+#include "mcu-renderer-fonts/font_robotoM48_2bpp.h"
+#include "mcu-renderer-fonts/font_robotoM48_3bpp.h"
+#include "mcu-renderer-fonts/font_robotoM48_4bpp.h"
 
 #define STATUSBAR_X 0
 #define STATUSBAR_Y 0
@@ -54,10 +54,10 @@ void setup()
       "4bit",
   };
   const uint8_t *test_fonts[] = {
-      font_robotoM48_1,
-      font_robotoM48_2,
-      font_robotoM48_3,
-      font_robotoM48_4,
+      font_robotoM48_1bpp,
+      font_robotoM48_2bpp,
+      font_robotoM48_3bpp,
+      font_robotoM48_4bpp,
   };
   for (uint32_t y = 0; y < 2; y++)
   {
@@ -111,9 +111,9 @@ void setup()
     rectangle.width = statusbar_x[i + 1] - statusbar_x[i];
 
     if (i < 2)
-      mr_set_font(&mr, font_robotoM12_4);
+      mr_set_font(&mr, font_robotoM12_4bpp);
     else
-      mr_set_font(&mr, font_material_symbolsR12_4);
+      mr_set_font(&mr, font_material_symbolsR12_4bpp);
 
     if (i < 1)
       mr_set_stroke_color(&mr, mr_get_color(0x000000));
@@ -121,7 +121,7 @@ void setup()
       mr_set_stroke_color(&mr, mr_get_color(0x707070));
 
     offset = (mr_point_t){
-        FONT_ROBOTOM12_4_CAP_HEIGHT,
+        FONT_ROBOTOM12_4BPP_CAP_HEIGHT,
         (STATUSBAR_HEIGHT - mr_get_line_height(&mr)) / 2};
 
     mr_draw_utf8_text(&mr,
