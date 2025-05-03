@@ -3,7 +3,7 @@
 ## 1.0.8
 
 * fontconv now notifies users of requested characters unavailable in the font.
-* Renamed --points parameter to --pixels.
+* Renamed fontconv --points parameter to --pixels.
 * Improved documentation.
 
 ## 1.0.7
