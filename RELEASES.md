@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.9
+
+* Added MR_COLOR sample colors.
+
 ## 1.0.8
 
 * fontconv now notifies users of requested characters unavailable in the font.
