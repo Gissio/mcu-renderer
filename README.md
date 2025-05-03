@@ -144,7 +144,7 @@ Run `fontconv` to convert fonts:
 python tools/fontconv.py --help
 ```
 
-- For vector fonts, use the `--pixels` parameter to set the [em-square](https://en.wikipedia.org/wiki/Em_(typography)) size. Adjust to match desired [cap height](https://en.wikipedia.org/wiki/Cap_height).
+- For vector fonts, use the `--pixels` parameter to set the nunber of pixels for rasterizing the [em-square](https://en.wikipedia.org/wiki/Em_(typography)). Adjust to match desired [cap height](https://en.wikipedia.org/wiki/Cap_height).
 - Override cap height, ascent, or descent if the calculated values are inaccurate.
 
 ## Determining necessary characters
