@@ -149,7 +149,7 @@ python tools/fontconv.py --help
 
 ## Determining necessary characters
 
-Use the `textproc` tool in the [tools](tools) folder to analyze text or C files and generate Unicode codepoint sets for your project.
+Use the `textproc` tool in the [tools](tools) folder to analyze text or C files and generate Unicode codepoint sets for `fontconv`.
 
 ### Setup
 1. Install [Python](https://www.python.org) and [PIP](https://pip.pypa.io/en/stable/).
