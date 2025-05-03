@@ -51,6 +51,17 @@ typedef uint16_t mr_color_t;
         (((((color_code >> 8) & 0xff) * 253 + 505) >> 10) << 5) | \
         (((((color_code >> 0) & 0xff) * 249 + 1014) >> 11) << 0)
 
+// Basic color palette
+
+#define MR_COLOR_BLACK mr_get_color(0x000000)
+#define MR_COLOR_RED mr_get_color(0xf7453a)
+#define MR_COLOR_GREEN mr_get_color(0x4aae52)
+#define MR_COLOR_YELLOW mr_get_color(0xffeb3a)
+#define MR_COLOR_BLUE mr_get_color(0x2196f7)
+#define MR_COLOR_PURPLE mr_get_color(0x9c28ad)
+#define MR_COLOR_CYAN mr_get_color(0x00bad6)
+#define MR_COLOR_WHITE mr_get_color(0xffffff)
+
 // Geometry
 
 typedef struct
