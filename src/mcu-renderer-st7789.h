@@ -155,7 +155,7 @@ void mr_st7789_set_display(mr_t *mr,
  * @param value Display sleep.
  */
 void mr_st7789_set_sleep(mr_t *mr,
-                           bool value);
+                         bool value);
 
 #ifdef __cplusplus
 }

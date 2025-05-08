@@ -35,21 +35,24 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 1. **Include the library**: Add the device-specific header file (see [Supported Devices](docs/supported-devices.md)).
 2. **Initialize the display**:
    ```c
-   mr_xxx_init(); // Replace 'xxx' with your device (e.g., mr_st7789_init)
-   mr_xxx_set_sleep(false); // Disable sleep mode (color displays only)
-   mr_xxx_set_display(true); // Turn on display
+   mr_t mr;
+   mr_xxx_init(&mr, ...); // Replace 'xxx' with your device (e.g., mr_st7789_init)
+   mr_xxx_set_sleep(&mr, false); // Disable sleep mode (color displays only)
+   mr_xxx_set_display(&mr, true); // Turn on display
    ```
 3. **Set up fonts**: Use provided fonts from the [fonts](fonts) folder or convert custom fonts (see [Preparing Fonts](#preparing-fonts)).
 4. **Draw text**:
    ```c
-   mr_set_font(&my_font);
-   mr_set_fill_color(MR_COLOR_BLACK);
-   mr_set_stroke_color(MR_COLOR_WHITE);
-   mr_draw_text("Hello, MCU!", 10, 10, 100, 20);
+   mr_set_font(&mr, &my_font);
+   mr_set_fill_color(&mr, MR_COLOR_BLACK);
+   mr_set_stroke_color(&mr, MR_COLOR_WHITE);
+   mr_rectangle_t rectangle = { 0, 0, 64, 16 };
+   mr_offset_t offset = { 0, 0 };
+   mr_draw_text(&mr, "Hello, MCU!", &rectangle, &offset);
    ```
 5. **Refresh screen** (monochrome or SDL):
    ```c
-   mr_xxx_refresh_screen();
+   mr_xxx_refresh_display(&mr);
    ```
 ## Setup and usage
 
@@ -70,32 +73,35 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 4. **Drawing operations**:
    - **Filled rectangle**:
      ```c
-     mr_set_fill_color(mr_get_color(0xFF2020)); // Red (#FF2020)
-     mr_draw_rectangle(10, 10, 50, 30);
+     mr_set_fill_color(&mr, mr_get_color(0xFF2020)); // Red (#FF2020)
+     mr_draw_rectangle(&mr, &rectangle);
      ```
    - **Bitmap (monochrome)**:
      ```c
-     mr_set_stroke_color(MR_COLOR_WHITE);
-     mr_set_fill_color(MR_COLOR_BLACK);
-     mr_draw_bitmap(bitmap_data, 20, 20, 16, 16);
+     mr_set_stroke_color(&mr, MR_COLOR_WHITE);
+     mr_set_fill_color(&mr, MR_COLOR_BLACK);
+     mr_draw_bitmap(&mr, &rectangle, bitmap);
      ```
    - **Image (color, RGB565)**:
      ```c
-     mr_draw_image(image_data, 30, 30, 64, 64);
+     mr_draw_image(&mr, &rectangle, image);
      ```
    - **Text**:
      ```c
-     mr_set_font(&my_font);
-     mr_set_fill_color(MR_COLOR_BLACK);
-     mr_set_stroke_color(MR_COLOR_WHITE);
-     mr_draw_text("Hello", 10, 10, 100, 20); // C-string
-     mr_draw_text_utf8(u8"こんにちは", 10, 40, 100, 20); // UTF-8
+     mr_set_font(&mr, &my_font);
+     mr_set_fill_color(&mr, MR_COLOR_BLACK);
+     mr_set_stroke_color(&mr, MR_COLOR_WHITE);
+     mr_rectangle_t rectangle = { 0, 0, 64, 16 };
+     mr_offset_t offset = { 0, 0 };
+     mr_draw_text(&mr, "Hello", &rectangle, &offset); // C-string
+     rectangle.y += 16;
+     mr_draw_text_utf8(u8"こんにちは", &rectangle, &offset); // UTF-8
      ```
      - Center text horizontally using `mr_get_text_width()` (or `utf8`/`utf16` variants).
      - Center vertically using font metrics: `mr_get_cap_height()`, `mr_get_ascent()`, `mr_get_descent()`, or `mr_get_line_height()`.
 
 5. **Refresh screen** (Monochrome or SDL):
-   - Call `mr_xxx_refresh_screen()` after drawing to update the display.
+   - Call `mr_xxx_refresh_display()` after drawing to update the display.
 
 ## Font metrics
 
