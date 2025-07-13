@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.10
+
+* Improved UTF-8 and UTF-16 decoder logic.
+
 ## 1.0.9
 
 * Added MR_COLOR sample colors.
