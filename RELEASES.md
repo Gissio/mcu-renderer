@@ -1,8 +1,12 @@
 # Releases
 
+## 1.0.11
+
+* Fixes issues in improved UTF-8 and UTF-16 decoder logic.
+
 ## 1.0.10
 
-* Improved UTF-8 and UTF-16 decoder logic.
+* Improved UTF-8 and UTF-16 decoder
 
 ## 1.0.9
 

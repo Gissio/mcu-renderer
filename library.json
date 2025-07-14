@@ -1,6 +1,6 @@
 {
     "name": "mcu-renderer",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "keywords": "antialiased, color-displays, display-driver, embedded-systems, font, graphics-library, lcd-display, microcontrollers, monochrome-displays, oled-display, renderer, text, tft-display",
     "description": "A C-language graphics library, focused on rendering non-flickering, anti-aliased text with low resource use on both monochrome and color LCD displays.",
 	"license": "MIT",

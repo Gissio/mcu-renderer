@@ -67,7 +67,7 @@ static mr_charcode mr_decode_utf8(uint8_t **strp)
         length = 3;
         codepoint = lead & 0x0f;
     }
-    else if ((lead >> 4) == 0x0e)
+    else if ((lead >> 3) == 0x1e)
     {
         length = 4;
         codepoint = lead & 0x07;
@@ -106,7 +106,7 @@ static mr_charcode mr_decode_utf16(uint8_t **strp)
             ((lowSurrogate >> 10) != 0x37))
             return 0;
 
-        *strp += 2;
+        *strp += 4;
 
         return (highSurrogate & 0x3ff) << 10 |
                (lowSurrogate & 0x3ff);
