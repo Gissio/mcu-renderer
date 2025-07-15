@@ -91,7 +91,6 @@ static mr_charcode mr_decode_utf16(uint8_t **strp)
 {
     uint16_t *str = (uint16_t *)*strp;
     uint16_t highSurrogate = str[0];
-    mr_charcode value;
 
     if ((highSurrogate >> 11) != 0x1b)
     {

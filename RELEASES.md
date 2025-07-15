@@ -1,6 +1,6 @@
 # Releases
 
-## 1.0.12
+## 1.0.13
 
 * Fixes issues in UTF-8 and UTF-16 decoder logic.
 
