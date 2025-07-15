@@ -108,8 +108,9 @@ static mr_charcode mr_decode_utf16(uint8_t **strp)
 
         *strp += 4;
 
-        return (highSurrogate & 0x3ff) << 10 |
-               (lowSurrogate & 0x3ff);
+        return (0x10000 +
+                ((highSurrogate & 0x3ff) << 10 |
+                 (lowSurrogate & 0x3ff)));
     }
 }
 
