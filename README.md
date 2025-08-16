@@ -32,7 +32,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 
 ## Quick start
 
-1. **Include the library**: Add the device-specific header file (see [supported devices](docs/supported-devices.md)).
+1. **Include the library**: Add the device-specific header file (see [Supported devices](docs/supported-devices.md)).
 2. **Initialize the display**:
    ```c
    mr_t mr;
@@ -40,7 +40,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
    mr_xxx_set_sleep(&mr, false); // Disable sleep mode (color displays only)
    mr_xxx_set_display(&mr, true); // Turn on display
    ```
-3. **Set up fonts**: Use provided fonts from the [fonts](fonts) folder or convert custom fonts (see [Preparing Fonts](#preparing-fonts)).
+3. **Set up fonts**: Use provided fonts from the [mcu-renderer-fonts](src/mcu-renderer-fonts) folder or convert custom fonts (see [Preparing Fonts](#preparing-fonts)).
 4. **Draw text**:
    ```c
    mr_set_font(&mr, &my_font);
@@ -63,7 +63,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
    - For color displays, disable sleep mode using `mr_xxx_set_sleep(false)`.
 
 2. **Configure fonts**:
-   - Use prebuilt fonts from the [fonts](fonts) folder or create custom fonts (see [Preparing Fonts](#preparing-fonts)).
+   - Use prebuilt fonts from the [mcu-renderer-fonts](src/mcu-renderer-fonts) folder or create custom fonts (see [Preparing Fonts](#preparing-fonts)).
    - Set the active font with `mr_set_font()` before drawing text or retrieving metrics.
 
 3. **Define screen layout**:
