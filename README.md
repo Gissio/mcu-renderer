@@ -27,12 +27,12 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 
 - C compiler (e.g., GCC) for MCU development.
 - [Python](https://www.python.org) and [PIP](https://pip.pypa.io/en/stable/) for font and text processing tools.
-- Hardware-specific development tools (e.g., SDKs for ST7789, ILI9341, or ST7565).
+- Hardware-specific development tools.
 - SDL library for PC testing (optional).
 
 ## Quick start
 
-1. **Include the library**: Add the device-specific header file (see [Supported Devices](docs/supported-devices.md)).
+1. **Include the library**: Add the device-specific header file (see [supported devices](docs/supported-devices.md)).
 2. **Initialize the display**:
    ```c
    mr_t mr;
