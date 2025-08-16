@@ -73,7 +73,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 4. **Drawing operations**:
    - **Filled rectangle**:
      ```c
-     mr_set_fill_color(&mr, mr_get_color(0xFF2020)); // Red (#FF2020)
+     mr_set_fill_color(&mr, mr_get_color(0xff2020)); // Red (#ff2020)
      mr_draw_rectangle(&mr, &rectangle);
      ```
    - **Bitmap (monochrome)**:
@@ -105,6 +105,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 
 ## Font metrics
 
+- **Size**: The em-square size of the font.
 - **Cap Height**: Height of uppercase 'A' (`mr_get_cap_height()`).
 - **Ascent**: Distance from top of line to [baseline](https://en.wikipedia.org/wiki/Baseline_(typography)) (`mr_get_ascent()`).
 - **Descent**: Distance from baseline to bottom of line (`mr_get_descent()`).
