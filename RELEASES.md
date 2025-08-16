@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.15
+
+* Minor fontconv fix.
+
 ## 1.0.14
 
 * Added a [FONTNAME]_SIZE define to fontconv.

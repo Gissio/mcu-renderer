@@ -734,7 +734,7 @@ def main():
         if len(missing_codepoints):
             missing_codepoint_set = ','.join(
                 build_codepoint_set(missing_codepoints))
-            print('error: requested codepoints not available: ' +
+            print('warning: requested codepoints not available: ' +
                   missing_codepoint_set)
 
     # Encode
