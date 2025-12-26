@@ -178,11 +178,15 @@ static SDL_Color mr_sdl_get_color(mr_sdl_display_t *display,
 {
     if (display->display_type == MR_SDL_DISPLAY_TYPE_COLOR)
     {
+        uint32_t r5 = (color >> 11) & 0x1f;
+        uint32_t g6 = (color >> 5) & 0x3f;
+        uint32_t b5 = (color >> 0) & 0x1f;
+
         return mr_sdl_blend_colors(
             (SDL_Color){
-                (((color & 0xf800) >> 11) * 527 + 23) >> 6,
-                (((color & 0x07e0) >> 5) * 259 + 33) >> 6,
-                (((color & 0x001f) >> 0) * 527 + 23) >> 6,
+                (r5 << 3) | (r5 >> 2),
+                (g6 << 2) | (g6 >> 4),
+                (b5 << 3) | (b5 >> 2),
                 0xff},
             (SDL_Color){
                 0,

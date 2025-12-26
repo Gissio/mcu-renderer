@@ -1,5 +1,11 @@
 # Releases
 
+## 1.0.16
+
+* Renamed old `mr_get_color` macro to `mr_get_color_rounded`.
+* Added new `mr_get_color` for more precise bit RGB888->RGB565 color conversion.
+* Improved RGB565->RGB888 color conversion in SDL.
+
 ## 1.0.15
 
 * Minor fontconv fix.

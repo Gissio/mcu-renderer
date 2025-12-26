@@ -46,7 +46,12 @@ typedef uint16_t mr_color_t;
  *
  * @return The RGB565 color.
  */
-#define mr_get_color(color_code)                                  \
+#define mr_get_color(color_code)                   \
+    ((((color_code >> 16) & 0xff) >> 3) << 11) |   \
+        ((((color_code >> 8) & 0xff) >> 2) << 5) | \
+        ((((color_code >> 0) & 0xff) >> 3) << 0)
+
+#define mr_get_color_rounded(color_code)                          \
     (((((color_code >> 16) & 0xff) * 249 + 1014) >> 11) << 11) |  \
         (((((color_code >> 8) & 0xff) * 253 + 505) >> 10) << 5) | \
         (((((color_code >> 0) & 0xff) * 249 + 1014) >> 11) << 0)
