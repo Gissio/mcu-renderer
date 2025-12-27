@@ -184,9 +184,23 @@ static SDL_Color mr_sdl_get_color(mr_sdl_display_t *display,
 
         return mr_sdl_blend_colors(
             (SDL_Color){
+#if defined(MCURENDERER_SDL_R0B0_ZERO)
+                ((r5 << 3) | (r5 >> 2)) & 0b11111011,
+                ((g6 << 2) | (g6 >> 4)) & 0b11111101,
+                ((b5 << 3) | (b5 >> 2)) & 0b11111011,
+#elif defined(MCURENDERER_SDL_R0B0_ONE)
+                ((r5 << 3) | (r5 >> 2)) | 0b00000100,
+                ((g6 << 2) | (g6 >> 4)) | 0b00000010,
+                ((b5 << 3) | (b5 >> 2)) | 0b00000100,
+#elif defined(MCURENDERER_SDL_R0B0_FROM_R5_B5)
                 (r5 << 3) | (r5 >> 2),
                 (g6 << 2) | (g6 >> 4),
                 (b5 << 3) | (b5 >> 2),
+#else // MCURENDERER_SDL_R0B0_FROM_G5
+                (r5 << 3) | ((g6 & 0b1) << 2) | (r5 >> 3),
+                (g6 << 2) | (g6 >> 4),
+                (b5 << 3) | ((g6 & 0b1) << 2) | (b5 >> 3),
+#endif
                 0xff},
             (SDL_Color){
                 0,
@@ -198,10 +212,8 @@ static SDL_Color mr_sdl_get_color(mr_sdl_display_t *display,
     else
     {
         return mr_sdl_blend_colors(
-            mr_sdl_monochrome_palette[1]
-                                     [color >> 15],
-            mr_sdl_monochrome_palette[0]
-                                     [color >> 15],
+            mr_sdl_monochrome_palette[1][color >> 15],
+            mr_sdl_monochrome_palette[0][color >> 15],
             display->backlight);
     }
 }
