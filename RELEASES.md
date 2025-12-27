@@ -2,14 +2,12 @@
 
 ## 1.0.17
 
-* Reverted `mr_get_color_rounded` to `mr_get_color`.
-* Added `mr_get_color_truncated` for truncated RGB888->RGB565 color conversion.
 * Added support for the ST7789 RAMCTRL EPF flags (Data translate of 65k and 4k to frame data) through `MCURENDERER_SDL_R0B0_ZERO`, `MCURENDERER_SDL_R0B0_ONE`, `MCURENDERER_SDL_R0B0_FROM_R5_B5` and `MCURENDERER_SDL_R0B0_FROM_G5` compiler defines.
 
 ## 1.0.16
 
-* Renamed old `mr_get_color` macro to `mr_get_color_rounded`.
-* Added new `mr_get_color` for more precise bit RGB888->RGB565 color conversion.
+* Renamed old `mr_get_color` macro to `mr_get_color_rounded` (best color accuracy).
+* Added new `mr_get_color` for RGB888->RGB565 color conversion using truncation (best for UIs).
 * Improved RGB565->RGB888 color conversion in SDL.
 
 ## 1.0.15
