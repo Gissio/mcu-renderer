@@ -1,74 +1,71 @@
 # Releases
 
+## 1.0.18
+
+- `fontconv`: added `-e` to write C headers with defines and declarations only.
+
 ## 1.0.17
 
-* Added support for the ST7789 RAMCTRL EPF flags (Data translate of 65k and 4k to frame data) through `MCURENDERER_SDL_R0B0_ZERO`, `MCURENDERER_SDL_R0B0_ONE`, `MCURENDERER_SDL_R0B0_FROM_R5_B5` and `MCURENDERER_SDL_R0B0_FROM_G5` compiler defines.
+- ST7789: added support for RAMCTRL EPF flags (data translation for 65k/4k frame data) through compiler defines: `MCURENDERER_SDL_R0B0_ZERO`, `MCURENDERER_SDL_R0B0_ONE`, `MCURENDERER_SDL_R0B0_FROM_R5_B5`, `MCURENDERER_SDL_R0B0_FROM_G5`.
 
 ## 1.0.16
 
-* Renamed old `mr_get_color` macro to `mr_get_color_rounded` (best color accuracy).
-* Added new `mr_get_color` for RGB888->RGB565 color conversion using truncation (best for UIs).
-* Improved RGB565->RGB888 color conversion in SDL.
+- API change: old `mr_get_color` renamed to `mr_get_color_rounded` (best for color accuracy).
+- Added a new `mr_get_color` implementation that converts RGB888→RGB565 using truncation (best for UIs).
+- Improved RGB565→RGB888 conversion in SDL backend.
+
+Migration note: if you used `mr_get_color` previously, update callers or alias the renamed symbol.
 
 ## 1.0.15
 
-* Minor fontconv fix.
+- Minor `fontconv` bugfix.
 
 ## 1.0.14
 
-* Added a [FONTNAME]_SIZE define to fontconv.
+- `fontconv`: added `[FONTNAME]_SIZE` define to generated headers.
 
-## 1.0.13
+## 1.0.13 / 1.0.10
 
-* Fixes issues in UTF-8 and UTF-16 decoder logic.
-
-## 1.0.10
-
-* Improved UTF-8 and UTF-16 decoder
+- Fixed and improved UTF-8 / UTF-16 decoder logic.
 
 ## 1.0.9
 
-* Added MR_COLOR sample colors.
+- Added `MR_COLOR` sample colors.
 
 ## 1.0.8
 
-* fontconv now notifies users of requested characters unavailable in the font.
-* Renamed fontconv --points parameter to --pixels.
-* Improved documentation.
+- `fontconv` now warns when requested glyphs are not available in the source font.
+- CLI change: renamed `--points` parameter to `--pixels`.
+
+Compatibility note: update any scripts or tooling that used `--points` to use `--pixels`.
 
 ## 1.0.7
 
-* Ported fontconv tool to Python.
-* Added textproc tool for calculating Unicode codepoint sets from text/.c files.
-* Fixed examples so they compile correctly.
+- Ported `fontconv` tool to Python.
+- Added `textproc` helper for computing Unicode codepoint sets from text and C sources.
+- Fixed build examples so they compile correctly.
 
 ## 1.0.6
 
-* Fixed text buffer error.
-* Removed unused mr->buffer_pitch.
+- Fixed text buffer bug and removed unused `mr->buffer_pitch`.
 
 ## 1.0.5
 
-* Fixed ST7565 buffer overflow.
-* Improved handling of chipselect.
+- Fixed ST7565 buffer overflow and improved chipselect handling.
 
 ## 1.0.4
 
-* Added chipselect callback.
+- Added chipselect callback support.
 
 ## 1.0.3
 
-* Renamed `mr_set_text_color` to `mr_set_stroke_color`.
-* Added `mr_draw_bitmap` for drawing monochrome images.
+- Renamed `mr_set_text_color` to `mr_set_stroke_color`.
+- Added `mr_draw_bitmap` to draw monochrome bitmaps.
 
-## 1.0.2
+## 1.0.2 / 1.0.1
 
-* Minor fixes.
-
-## 1.0.1
-
-* Minor fixes.
+- Miscellaneous minor fixes and stability improvements.
 
 ## 1.0
 
-* First release.
+- Initial release.
