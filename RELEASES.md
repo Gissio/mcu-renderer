@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.19
+
+- Fixed missing static on inline callback wrappers.
+
 ## 1.0.18
 
 - `fontconv`: added `-e` to write C headers with defines and declarations only.
