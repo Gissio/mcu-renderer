@@ -68,10 +68,10 @@ void mr_st7789_init(mr_t *mr,
 #### Parameters
 - `mr`: Pointer to the `mcu-renderer` context.
 - `width`, `height`: Physical display dimensions in pixels.
-- `rotation`: Screen orientation (`mr_display_rotation_t` enum, e.g., `MR_ROTATION_0`, `MR_ROTATION_90`).
-- `textbuffer`: User-provided framebuffer for text rendering.
-  - Minimum size: `2 * font_boundingbox_width * font_boundingbox_height` bytes.
-  - Insufficient size may cause text rendering issues.
+- `rotation`: Screen orientation (`mr_display_rotation_t` enum, e.g., `MR_DISPLAY_ROTATION_0`, `MR_DISPLAY_ROTATION_90`).
+- `textbuffer`: User-provided buffer for text rendering, one byte per pixel.
+  - Minimum size: the bounding box of the largest font used (`width * height` bytes). With a smaller buffer, text is not drawn and the text drawing functions return `false`.
+  - A buffer holding two or more bounding boxes sends text in fewer transfers.
 - `textbuffer_size`: Size of the `textbuffer` in bytes.
 - Callbacks:
   - `sleep_callback`: Delays the processor (in milliseconds).
@@ -86,10 +86,10 @@ The initialization is minimal. Send a custom initialization sequence using `mr_s
 
 #### Example
 ```c
-uint8_t textbuffer[256];
-mr_st7789_init(&mr, 240, 320, MR_ROTATION_0, textbuffer, sizeof(textbuffer),
+uint8_t textbuffer[2048]; // At least the largest font's bounding box
+mr_st7789_init(&mr, 240, 320, MR_DISPLAY_ROTATION_0, textbuffer, sizeof(textbuffer),
                sleep_ms, set_reset, set_cs, set_dc, send_8bit, send_16bit);
-mr_send_sequence(&mr, st7789_init_sequence, sizeof(st7789_init_sequence));
+mr_send_sequence(&mr, st7789_init_sequence);
 ```
 
 ## ILI9341 (Color LCD)
@@ -108,10 +108,10 @@ Call `mr_ili9341_init()` with the same parameters as `mr_st7789_init()`.
 
 #### Example
 ```c
-uint8_t textbuffer[256];
-mr_ili9341_init(&mr, 240, 320, MR_ROTATION_0, textbuffer, sizeof(textbuffer),
+uint8_t textbuffer[2048]; // At least the largest font's bounding box
+mr_ili9341_init(&mr, 240, 320, MR_DISPLAY_ROTATION_0, textbuffer, sizeof(textbuffer),
                 sleep_ms, set_reset, set_cs, set_dc, send_8bit, send_16bit);
-mr_send_sequence(&mr, ili9341_init_sequence, sizeof(ili9341_init_sequence));
+mr_send_sequence(&mr, ili9341_init_sequence);
 ```
 
 ## ST7565 (Monochrome LCD)
@@ -156,7 +156,7 @@ Send a custom initialization sequence using `mr_send_sequence()` after calling `
 #### Example
 ```c
 uint8_t framebuffer[1024]; // For 128x64 display
-mr_st7565_init(&mr, 128, 64, MR_ROTATION_0, framebuffer,
+mr_st7565_init(&mr, 128, 64, MR_DISPLAY_ROTATION_0, framebuffer,
                sleep_ms, set_reset, set_cs, set_dc, send_8bit);
 mr_send_sequence(&mr, st7565_init_sequence);
 ```
@@ -168,6 +168,6 @@ mr_send_sequence(&mr, st7565_init_sequence);
 - **Testing with SDL**: Use the SDL backend to validate rendering logic before deploying to hardware.
 
 ## Troubleshooting
-- **Text not rendering (ST7789/ILI9341)**: Verify that `textbuffer` is large enough.
+- **Text not rendering (ST7789/ILI9341)**: Verify that `textbuffer` is large enough. The text drawing functions return `false` when it is too small for the font.
 - **Display not responding**: Check callback implementations and ensure the initialization sequence is correct.
 - **SDL window issues**: Confirm the `MCURENDERER_SDL` symbol is defined and SDL libraries are linked.

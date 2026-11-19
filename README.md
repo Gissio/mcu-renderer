@@ -12,7 +12,7 @@ mcu-renderer is a lightweight C graphics library designed for microcontrollers (
 - High font compression for efficient storage.
 - Adjustable font bit-depth (1–4 bpp).
 - Supports C-strings, UTF-8, and UTF-16 text encoding.
-- Color displays: Requires only a small RGB565 framebuffer (covering two or more characters).
+- Color displays: Requires only a small text buffer (one byte per pixel, at least one character's bounding box).
 - Monochrome displays: Requires a full framebuffer.
 - SDL graphics support for PC-based testing.
 

@@ -1,5 +1,20 @@
 # Releases
 
+## 1.0.20
+
+- Replaced the glyph drawing macro templates with plain functions: a glyph run decoder (`mr_get_glyph_run()`) and one glyph drawing function per backend. Rendering output is unchanged.
+- Shared helpers for framebuffer pixel writes, bitmap pixel reads and glyph lookup. The pixel write helpers are always inlined, so drawing speed doesn't depend on LTO or compiler inlining heuristics.
+- Smaller code: glyph header fields are read in a loop, and pixel values are scaled to alpha by bit replication.
+- `mr_draw_text()`, `mr_draw_utf8_text()` and `mr_draw_utf16_text()` now return `false` when the text buffer is too small for the font. Custom backends must return `bool` from their string drawing callback.
+- Monochrome framebuffers: glyphs now use the same rule as rectangles, bitmaps and images (a color is on when its most significant bit is set).
+- Fixed undefined behavior when rendering 7 and 8 bpp fonts.
+- Fixed operator precedence in `mr_get_color()` and `mr_get_color_rounding()`.
+- Renamed `COLOR_BLEND_TABLE_SIZE` to `MR_COLOR_BLEND_TABLE_SIZE`; the old name remains as a deprecated alias.
+- Removed the undefined `mr_rotate_rectangle()` declaration and the unused `draw_glyph_callback` field.
+- Character decoding callbacks now take `const uint8_t **`.
+- Documentation: corrected text buffer sizing, display rotation names and `mr_send_sequence()` examples.
+- The font format is unchanged; existing fonts work without conversion.
+
 ## 1.0.19
 
 - Fixed missing static on inline callback wrappers.

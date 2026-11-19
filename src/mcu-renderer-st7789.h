@@ -117,7 +117,9 @@ extern "C" {
  * @param width The physical display width (e.g. 240).
  * @param height The physical display height (e.g. 320).
  * @param rotation The desired display rotation.
- * @param textbuffer A user-provided buffer for rendering text.
+ * @param textbuffer A user-provided buffer for rendering text, one byte per pixel.
+ * It must hold at least the bounding box of the largest font used (width * height
+ * bytes), otherwise text is not drawn. A larger buffer sends text in fewer transfers.
  * @param textbuffer_size  The size of the user-provided buffer.
  * @param sleep_callback A user-provided sleep callback.
  * @param set_reset_callback A user-provided set reset callback.
